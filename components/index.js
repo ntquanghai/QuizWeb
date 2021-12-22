@@ -163,8 +163,8 @@ export default class Main {
                     points = points + 10;
                     questNum++;
                     document.getElementById("app").innerHTML = "";
-                    let hoho = new Main();
-                    hoho.render(document.getElementById("app"));
+                    let newMain = new Main();
+                    newMain.render(document.getElementById("app"));
                 }
                 else {
                     clearInterval(intervalVar);
@@ -181,5 +181,5 @@ export default class Main {
 }
 
 
-const haha = new Main();
-haha.render(document.getElementById("app"));
+const newMain = new Main();
+newMain.render(document.getElementById("app"));

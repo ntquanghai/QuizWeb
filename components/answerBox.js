@@ -8,7 +8,7 @@ export default class answerBox {
 
     constructor(ans, text, value) {
         this.$boxContainer = document.createElement("button");
-        this.$boxContainer.setAttribute("class","flex w-1/2 mx-2 mt-4 bg-red-200 hover:bg-red-300 cursor-pointer h-16 p-2");
+        this.$boxContainer.setAttribute("class","flex w-1/2 mx-2 mt-4 bg-green-200 hover:bg-green-300 cursor-pointer h-16 p-2");
         this._boxAnsValue = value;
         this.$boxContainer.classList.add(this._boxAnsValue);
 
