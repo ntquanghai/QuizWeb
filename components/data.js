@@ -1,6 +1,6 @@
 const data = [
 {
-    textQuestion: "HAhahahaha",
+    textQuestion: "jehjfhasfhjsd?",
     imgQuestion: "",
     ans: [
         {
