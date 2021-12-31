@@ -1,10 +1,28 @@
 import answerBox from "./answerBox.js";
 import data from "./data.js";
 import gameOverModal from "./gameOverModal.js";
+import gameBeaten from "./gameBeaten.js";
 
 let points = 0;
 let intervalVar;
 let questNum = 1;
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    while (currentIndex != 0) {
+  
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+}
+
+const dataArr = shuffle(data);
 
 
 export default class Main {
@@ -116,11 +134,8 @@ export default class Main {
 
 
     render(container) {
-
         const flag = false;
         let ansArr = ["A","B","C","D"];
-
-        const dataArr = this.shuffle(data);
 
         let i = 0; 
 
@@ -153,30 +168,35 @@ export default class Main {
         this.$mainAns.appendChild(this.$mainAnsR1);
         this.$mainAns.appendChild(this.$mainAnsR2);
 
-        this.$mainQuestionsText.textContent = dataArr[0].textQuestion;
-
-
-        for(let i = 0; i < 4; i++) {
-            let newAnswer = new answerBox((ansArr[i]),dataArr[0].ans[i].content,dataArr[0].ans[i].flag);
-            newAnswer.$boxContainer.addEventListener("click", function(event) {
-                if(event.currentTarget.classList.contains("true")) {
-                    points = points + 10;
-                    questNum++;
-                    document.getElementById("app").innerHTML = "";
-                    let newMain = new Main();
-                    newMain.render(document.getElementById("app"));
-                }
-                else {
-                    clearInterval(intervalVar);
-                    let haha = new gameOverModal(points);
-                    haha.render(mainContainer);
-                }
-            })
-            newAnswer.render(this.$mainAns);
+        if(questNum-1 === dataArr.length) {
+            console.log("hahahaha");
+            document.getElementById("app").innerHTML = "";
+            const gb = new gameBeaten(questNum,points);
+            gb.render(document.getElementById("app"));
         }
-    
-        this.decrease(arr,15,this.$mainQuestionsText,timerNum,mainContainer);
-        container.appendChild(mainContainer); 
+        else {
+            this.$mainQuestionsText.textContent = dataArr[questNum-1].textQuestion;
+            for(let i = 0; i < 4; i++) {
+                let newAnswer = new answerBox((ansArr[i]),dataArr[questNum-1].ans[i].content,dataArr[questNum-1].ans[i].flag);
+                newAnswer.$boxContainer.addEventListener("click", function(event) {
+                    if(event.currentTarget.classList.contains("true")) {
+                        points = points + 10;
+                        questNum++;
+                        document.getElementById("app").innerHTML = "";
+                        let newMain = new Main();
+                        newMain.render(document.getElementById("app"));
+                    }
+                    else {
+                        clearInterval(intervalVar);
+                        let haha = new gameOverModal(points);
+                        haha.render(mainContainer);
+                    }
+                })
+                newAnswer.render(this.$mainAns);
+            }
+            this.decrease(arr,15,this.$mainQuestionsText,timerNum,mainContainer);
+            container.appendChild(mainContainer); 
+        } 
     }
 }
 
