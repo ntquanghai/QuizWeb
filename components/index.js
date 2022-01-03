@@ -159,7 +159,7 @@ export default class Main {
         
 
         const mainContainer = document.createElement("div");
-        mainContainer.setAttribute("class","flex flex-col-reverse h-screen p-4")
+        mainContainer.setAttribute("class","flex flex-col-reverse h-screen p-4 bg-green-50")
 
         mainContainer.appendChild(this.$mainAns);
         this.$mainQuestionsBox.appendChild(this.$mainQuestionsText);
