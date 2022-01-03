@@ -2,6 +2,7 @@ import answerBox from "./answerBox.js";
 import data from "./data.js";
 import gameOverModal from "./gameOverModal.js";
 import gameBeaten from "./gameBeaten.js";
+import questionAdd from "./questionAdd.js";
 
 let points = 0;
 let intervalVar;
@@ -37,8 +38,6 @@ export default class Main {
     $mainPoint
 
     $mainAns
-    $mainAnsR1
-    $mainAnsR2
 
     _points;
     _questNum;
@@ -46,6 +45,12 @@ export default class Main {
     constructor() {
         this.$mainQuestionsBox = document.createElement("div");
         this.$mainQuestionsBox.setAttribute("class","flex flex-grow w-full text-8xl")
+        this.$mainQuestionsBox.addEventListener("click",function() {
+            document.getElementById("app").innerHTML = "";
+            clearInterval(intervalVar);
+            const gaga = new questionAdd()
+            gaga.render(document.getElementById("app"));
+        })
 
         this.$mainQuestionsText = document.createElement("div");
         this.$mainQuestionsText.setAttribute("class","m-auto flex-grow text-center");
@@ -66,17 +71,9 @@ export default class Main {
 
         this.$mainAns = document.createElement("div");
         this.$mainAns.setAttribute("class","flex");
-        
-        this.$mainAnsR1 = document.createElement("div");
-        this.$mainAnsR1.setAttribute("class","flex");
-        
-        this.$mainAnsR2 = document.createElement("div");
-        this.$mainAnsR2.setAttribute("class","flex");
+
     }
 
-    heee = (yer) => {
-        return yer*10;
-    }
 
     shuffle(array) {
         let currentIndex = array.length,  randomIndex;
@@ -99,6 +96,7 @@ export default class Main {
         let i = 0;
         let timeNum = 15;
         intervalVar = setInterval(function() {
+            console.log(timeNum);
             timerNum.textContent = timeNum;
             timeNum--;
             if(i < 5) {
@@ -121,10 +119,18 @@ export default class Main {
                     }
                 }
                 array[14 - i].classList.remove("bg-red-300");
+                
             }
             else {
-                clearInterval(intervalVar);
                 textBox.textContent = "GAME OVER";
+                const dataObj = {
+                    userId: "default",
+                    username: "default",
+                    points: points,
+                    questNum: questNum
+                }
+                console.log("go",dataObj);
+                clearInterval(intervalVar);
                 const goModal = new gameOverModal(points);
                 goModal.render(mainCon);
             }
@@ -165,11 +171,16 @@ export default class Main {
 
         mainContainer.appendChild(this.$mainPointContainer);
         mainContainer.appendChild(this.$mainDuration);
-        this.$mainAns.appendChild(this.$mainAnsR1);
-        this.$mainAns.appendChild(this.$mainAnsR2);
+        
 
         if(questNum-1 === dataArr.length) {
-            console.log("hahahaha");
+            const dataObj = {
+                userId: "default",
+                username: "default",
+                points: points,
+                questNum: questNum
+            }
+            console.log("hahahaha",dataObj);
             document.getElementById("app").innerHTML = "";
             const gb = new gameBeaten(questNum,points);
             gb.render(document.getElementById("app"));
@@ -180,6 +191,7 @@ export default class Main {
                 let newAnswer = new answerBox((ansArr[i]),dataArr[questNum-1].ans[i].content,dataArr[questNum-1].ans[i].flag);
                 newAnswer.$boxContainer.addEventListener("click", function(event) {
                     if(event.currentTarget.classList.contains("true")) {
+                        clearInterval(intervalVar);
                         points = points + 10;
                         questNum++;
                         document.getElementById("app").innerHTML = "";
@@ -188,6 +200,13 @@ export default class Main {
                     }
                     else {
                         clearInterval(intervalVar);
+                        const dataObj = {
+                            userId: "default",
+                            username: "default",
+                            points: points,
+                            questNum: questNum
+                        }
+                        console.log("goWrong",dataObj);
                         let haha = new gameOverModal(points);
                         haha.render(mainContainer);
                     }
