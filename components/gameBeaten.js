@@ -45,6 +45,8 @@ export default class gameBeaten {
         this.$gbReplay.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
         this.$gbReplay.addEventListener("click", function() {
             location.reload();
+            const newMain = new Main();
+            newMain.render(document.getElementById("app"));
         })
 
         this.$gbMainButton = document.createElement("button");

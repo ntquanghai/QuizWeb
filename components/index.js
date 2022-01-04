@@ -101,6 +101,11 @@ export default class Main {
         this.$mainAns.setAttribute("class","flex");
     }
 
+    resetPoints() {
+        points = 0;
+        questNum = 1;
+        dataArr =[];
+    }
 
     shuffle(array) {
         let currentIndex = array.length,  randomIndex;
