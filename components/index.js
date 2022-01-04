@@ -1,13 +1,14 @@
 import answerBox from "./answerBox.js";
-import data from "./data.js";
 import gameOverModal from "./gameOverModal.js";
 import gameBeaten from "./gameBeaten.js";
 import questionAdd from "./questionAdd.js";
 
+import { getFirestore, collection, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";  
+
 let points = 0;
 let intervalVar;
 let questNum = 1;
-
+let dataArr =[];
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
   
@@ -22,14 +23,26 @@ function shuffle(array) {
   
     return array;
 }
-
-const dataArr = shuffle(data);
+const db = getFirestore();
+const questionData = collection(db, "questionData"); 
+const getDoc = getDocs(questionData)
+getDoc.then((data) => {
+    let dataArrTemp = [];
+    data.docs.forEach((doc) => {
+        dataArrTemp.push({...doc.data(), id: doc.id })
+    })
+    dataArr = shuffle(dataArrTemp)
+})
+await getDoc
 
 
 export default class Main {
     $mainContainer
+
     $mainQuestionsBox
     $mainQuestionsText
+
+    $mainQuestionsImg
 
     $mainDuration
 
@@ -37,23 +50,28 @@ export default class Main {
     $mainQuestionIndex
     $mainPoint
 
+    $timerNum
+
     $mainAns
 
     _points;
     _questNum;
 
     constructor() {
+        this.$mainContainer = document.createElement("div");
+        this.$mainContainer.setAttribute("class","flex flex-col-reverse h-screen p-4 bg-green-50")
+
         this.$mainQuestionsBox = document.createElement("div");
         this.$mainQuestionsBox.setAttribute("class","flex flex-grow w-full text-8xl")
-        this.$mainQuestionsBox.addEventListener("click",function() {
-            document.getElementById("app").innerHTML = "";
-            clearInterval(intervalVar);
-            const gaga = new questionAdd()
-            gaga.render(document.getElementById("app"));
-        })
-
+        
         this.$mainQuestionsText = document.createElement("div");
         this.$mainQuestionsText.setAttribute("class","m-auto flex-grow text-center");
+
+        this.$mainQuestionsImg = document.createElement("img");
+        this.$mainQuestionsImg.setAttribute("class", "border-2 p-4 text-2xl bg-white");
+        this.$mainQuestionsImg.id = "mqImg";
+        this.$mainQuestionsImg.style.height = "480px";
+        this.$mainQuestionsImg.style.width = "600px";
 
         this.$mainDuration = document.createElement("div");
         this.$mainDuration.setAttribute("class","flex border-black border");
@@ -64,14 +82,23 @@ export default class Main {
         this.$mainQuestionIndex = document.createElement("div");
         this.$mainQuestionIndex.textContent = "Question: " + questNum;
         this.$mainQuestionIndex.setAttribute("class","text-xl m-4");
+        this.$mainQuestionIndex.addEventListener("click",function() {
+            document.getElementById("app").innerHTML = "";
+            clearInterval(intervalVar);
+            const gaga = new questionAdd()
+            gaga.render(document.getElementById("app"));
+        })
+
 
         this.$mainPoint = document.createElement("div");
         this.$mainPoint.setAttribute("class","text-xl m-4")
         this.$mainPoint.textContent = "Points: " + points;
 
+        this.$timerNum = document.createElement("div");
+        this.$timerNum.setAttribute("class","my-auto flex-grow text-3xl font-bold text-center");
+
         this.$mainAns = document.createElement("div");
         this.$mainAns.setAttribute("class","flex");
-
     }
 
 
@@ -138,84 +165,85 @@ export default class Main {
         },1000)
     }
 
-
-    render(container) {
+    runGame = async () => {
         const flag = false;
         let ansArr = ["A","B","C","D"];
-
         let i = 0; 
 
-        const arr = [];
-        for(let i = 0; i < 15; i++) {
-            arr[i] = document.createElement("div");
-            arr[i].style.width = "6.66666666666%";
-            arr[i].setAttribute("class","bg-green-300 h-20")
-            arr[i].id = i;
-            this.$mainDuration.appendChild(arr[i]);
-        }
+            const arr = [];
+            for(let i = 0; i < 15; i++) {
+                arr[i] = document.createElement("div");
+                arr[i].style.width = "6.66666666666%";
+                arr[i].setAttribute("class","bg-green-300 h-20")
+                arr[i].id = i;
+                this.$mainDuration.appendChild(arr[i]);
+            }
+            if(questNum-1 === dataArr.length) {
+                const dataObj = {
+                    userId: "default",
+                    username: "default",
+                    points: points,
+                    questNum: questNum
+                }
+                console.log("hahahaha",dataObj);
+                document.getElementById("app").innerHTML = "";
+                const gb = new gameBeaten(questNum-1,points);
+                gb.render(document.getElementById("app"));
+            }
+            else {
+                if((dataArr[questNum-1].imgQuestion.length != 0)) {
+                    this.$mainQuestionsImg.src = dataArr[questNum-1].imgQuestion;
+                    this.$mainQuestionsBox.appendChild(this.$mainQuestionsImg);
+                    this.$mainQuestionsBox.appendChild(this.$mainQuestionsText);
+                }
+                else {
+                    this.$mainQuestionsBox.appendChild(this.$mainQuestionsText);
+                }
+                this.$mainQuestionsText.textContent = dataArr[questNum-1].textQuestion;
+                
+                for(let i = 0; i < 4; i++) {
+                    let newAnswer = new answerBox((ansArr[i]),dataArr[questNum-1].ans[i].content,dataArr[questNum-1].ans[i].flag);
+                    newAnswer.$boxContainer.addEventListener("click", function(event) {
+                        if(event.currentTarget.classList.contains("true")) {
+                            clearInterval(intervalVar);
+                            points = points + 10;
+                            questNum++;
+                            document.getElementById("app").innerHTML = "";
+                            let newMain = new Main();
+                            newMain.render(document.getElementById("app"));
+                        }
+                        else {
+                            clearInterval(intervalVar);
+                            const dataObj = {
+                                userId: "default",
+                                username: "default",
+                                points: points,
+                                questNum: questNum
+                            }
+                            console.log("goWrong",dataObj);
+                            let newMain = new gameOverModal(points);
+                            newMain.render(document.getElementById("app"));
+                        }
+                    })
+                    newAnswer.render(this.$mainAns);
+                }
+                this.decrease(arr,15,this.$mainQuestionsText,this.$timerNum,this.$mainContainer);
+            } 
+    }
 
-        const timerNum = document.createElement("div");
-        timerNum.setAttribute("class","my-auto flex-grow text-3xl font-bold text-center");
-        
-
-        const mainContainer = document.createElement("div");
-        mainContainer.setAttribute("class","flex flex-col-reverse h-screen p-4 bg-green-50")
-
-        mainContainer.appendChild(this.$mainAns);
-        this.$mainQuestionsBox.appendChild(this.$mainQuestionsText);
-        mainContainer.appendChild(this.$mainQuestionsBox);
+    render(container) {        
+        this.$mainContainer.appendChild(this.$mainAns);
+        this.runGame();
+        this.$mainContainer.appendChild(this.$mainQuestionsBox);
 
         this.$mainPointContainer.appendChild(this.$mainQuestionIndex);
-        this.$mainPointContainer.appendChild(timerNum);
+        this.$mainPointContainer.appendChild(this.$timerNum);
         this.$mainPointContainer.appendChild(this.$mainPoint);
 
-        mainContainer.appendChild(this.$mainPointContainer);
-        mainContainer.appendChild(this.$mainDuration);
+        this.$mainContainer.appendChild(this.$mainPointContainer);
+        this.$mainContainer.appendChild(this.$mainDuration);
         
-
-        if(questNum-1 === dataArr.length) {
-            const dataObj = {
-                userId: "default",
-                username: "default",
-                points: points,
-                questNum: questNum
-            }
-            console.log("hahahaha",dataObj);
-            document.getElementById("app").innerHTML = "";
-            const gb = new gameBeaten(questNum,points);
-            gb.render(document.getElementById("app"));
-        }
-        else {
-            this.$mainQuestionsText.textContent = dataArr[questNum-1].textQuestion;
-            for(let i = 0; i < 4; i++) {
-                let newAnswer = new answerBox((ansArr[i]),dataArr[questNum-1].ans[i].content,dataArr[questNum-1].ans[i].flag);
-                newAnswer.$boxContainer.addEventListener("click", function(event) {
-                    if(event.currentTarget.classList.contains("true")) {
-                        clearInterval(intervalVar);
-                        points = points + 10;
-                        questNum++;
-                        document.getElementById("app").innerHTML = "";
-                        let newMain = new Main();
-                        newMain.render(document.getElementById("app"));
-                    }
-                    else {
-                        clearInterval(intervalVar);
-                        const dataObj = {
-                            userId: "default",
-                            username: "default",
-                            points: points,
-                            questNum: questNum
-                        }
-                        console.log("goWrong",dataObj);
-                        let haha = new gameOverModal(points);
-                        haha.render(mainContainer);
-                    }
-                })
-                newAnswer.render(this.$mainAns);
-            }
-            this.decrease(arr,15,this.$mainQuestionsText,timerNum,mainContainer);
-            container.appendChild(mainContainer); 
-        } 
+        container.appendChild(this.$mainContainer);
     }
 }
 

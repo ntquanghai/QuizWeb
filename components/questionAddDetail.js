@@ -39,6 +39,7 @@ export default class questionAddDetail {
 
   $qadImg;
 
+  $qadImgButtonContainer;
   $qadImgButton;
 
   $qadAns0;
@@ -71,7 +72,7 @@ export default class questionAddDetail {
     );
 
     this.$qadContentContainer = document.createElement("div");
-    this.$qadContentContainer.setAttribute("class", "flex py-8");
+    this.$qadContentContainer.setAttribute("class", "flex py-4");
 
     this.$qadTextMainContainer = document.createElement("div");
     this.$qadTextMainContainer.setAttribute(
@@ -107,6 +108,8 @@ export default class questionAddDetail {
     this.$qadImg.id = "qadImg";
     this.$qadImg.style.height = "480px";
     this.$qadImg.style.width = "600px";
+
+    this.$qadImgButtonContainer = document.createElement("div");
 
     this.$qadImgButton = document.createElement("input");
     this.$qadImgButton.type = "file";
@@ -162,7 +165,7 @@ export default class questionAddDetail {
     e.preventDefault();
 
     const validated = this.conditionUpload();
-
+    console.log("Succesful");
     if (validated !== null) {
       addDoc(questionData, validated);
     }
@@ -180,7 +183,57 @@ export default class questionAddDetail {
     const q2 = this.$qadAns2.returnValue();
     const q3 = this.$qadAns3.returnValue();
 
-    const imgQuestion = fileUrl;
+    let imgQuestion = fileUrl;
+
+    let flag = true;
+
+    if(this._textOrImg === "text") {
+      imgQuestion = "";
+        if (
+            this.elLength(qadText.value) === 0 ||
+            this.elLength(q0).length === 0 ||
+            this.elLength(q1).length === 0 ||
+            this.elLength(q2).length === 0 ||
+            this.elLength(q3).length === 0 ||
+            (
+              (!(document.getElementById("q0").classList.contains("false"))) && 
+              (!(document.getElementById("q1").classList.contains("false"))) &&
+              (!(document.getElementById("q2").classList.contains("false"))) &&
+              (!(document.getElementById("q3").classList.contains("false")))
+            )
+          ) {
+            alert("Invalid submission. Missing inputs.");
+            flag = false;
+          } else if (qadText.value.length < 10) {
+            alert(
+              "Invalid submission. Your question must have at least 10 characters, and at most 100 characters."
+            );
+          }
+    }
+
+    else if(this._textOrImg === "img") {
+        if (
+            this.elLength(qadImg.src) === 0 ||
+            this.elLength(qadText.value) === 0 ||
+            this.elLength(q0).length === 0 ||
+            this.elLength(q1).length === 0 ||
+            this.elLength(q2).length === 0 ||
+            this.elLength(q3).length === 0 ||
+            (
+              (!(document.getElementById("q0").classList.contains("false"))) && 
+              (!(document.getElementById("q1").classList.contains("false"))) &&
+              (!(document.getElementById("q2").classList.contains("false"))) &&
+              (!(document.getElementById("q3").classList.contains("false")))
+            )
+          ) {
+            alert("Invalid submission. Missing inputs.");
+            flag = false;
+          } else if (qadText.value.length < 10) {
+            alert(
+              "Invalid submission. Your question must have at least 10 characters, and at most 100 characters."
+            );
+          }
+    }
     const textQuestion = document.getElementById("qadText").value;
     const ansObj0 = {
       content: q0,
@@ -205,43 +258,6 @@ export default class questionAddDetail {
       textQuestion: textQuestion,
       ans: ans,
     };
-
-    let flag = true;
-
-    if(textOrImg === "text") {
-        if (
-            this.elLength(qadText.value) === 0 ||
-            this.elLength(q0).length === 0 ||
-            this.elLength(q1).length === 0 ||
-            this.elLength(q2).length === 0 ||
-            this.elLength(q3).length === 0
-          ) {
-            alert("Invalid submission. Missing inputs.");
-            flag = false;
-          } else if (qadText.value.length < 10) {
-            alert(
-              "Invalid submission. Your question must have at least 10 characters, and at most 100 characters."
-            );
-          }
-    }
-
-    else if(textOrImg === "img") {
-        if (
-            this.elLength(qadImg.src) === 0 ||
-            this.elLength(qadText.value) === 0 ||
-            this.elLength(q0).length === 0 ||
-            this.elLength(q1).length === 0 ||
-            this.elLength(q2).length === 0 ||
-            this.elLength(q3).length === 0
-          ) {
-            alert("Invalid submission. Missing inputs.");
-            flag = false;
-          } else if (qadText.value.length < 10) {
-            alert(
-              "Invalid submission. Your question must have at least 10 characters, and at most 100 characters."
-            );
-          }
-    }
     
 
     if (flag === true) {
@@ -304,8 +320,8 @@ export default class questionAddDetail {
       );
 
       this.$qadContentContainer.appendChild(this.$qadTextMainContainer);
-      this.$qadContainer.appendChild(this.$qadDescAns);
       this.$qadContainer.appendChild(this.$qadContentContainer);
+      this.$qadContainer.appendChild(this.$qadDescAns);
       this.$qadAns0.render(this.$qadAnsContainer);
       this.$qadAns1.render(this.$qadAnsContainer);
       this.$qadAns2.render(this.$qadAnsContainer);
@@ -340,7 +356,9 @@ export default class questionAddDetail {
       this.$qadContentContainer.appendChild(this.$qadTextMainContainer);
       this.$qadContainer.appendChild(this.$qadDesc);
       this.$qadContainer.appendChild(this.$qadContentContainer);
-      this.$qadContainer.appendChild(this.$qadImgButton);
+
+      this.$qadImgButtonContainer.appendChild(this.$qadImgButton)
+      this.$qadContainer.appendChild(this.$qadImgButtonContainer);
 
       this.$qadContainer.appendChild(this.$qadDescAns);
       this.$qadAns0.render(this.$qadAnsContainer);
