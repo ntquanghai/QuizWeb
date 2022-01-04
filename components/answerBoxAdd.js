@@ -9,7 +9,7 @@ export default class answerBoxAdd {
     
     constructor(ans,id) {
         this.$boxContainer = document.createElement("div");
-        this.$boxContainer.setAttribute("class","flex w-1/4 mx-2 mt-4 bg-green-200 cursor-pointer h-16 p-2");
+        this.$boxContainer.setAttribute("class","flex w-1/4 mx-2 mt-4 bg-green-200 cursor-pointer h-16 p-2 border border-black");
         this.$boxContainer.id = id;
 
         this.$boxAnsBox = document.createElement("div");

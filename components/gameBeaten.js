@@ -1,3 +1,5 @@
+import Main from "./index.js"
+
 export default class gameBeaten {
     $gbMainContainer
     $gbContainer
@@ -7,6 +9,7 @@ export default class gameBeaten {
     $gbRecord
     $gbQuestNum
     $gbPoint
+    $gbReplay
     $gbMainButton
     $gbLeaderboardButton
 
@@ -37,14 +40,20 @@ export default class gameBeaten {
         this.$gbPoint.textContent = "Points: " + points;
         this.$gbPoint.setAttribute("class","text-xl");
 
+        this.$gbReplay = document.createElement("button");
+        this.$gbReplay.textContent = "REPLAY";
+        this.$gbReplay.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
+        this.$gbReplay.addEventListener("click", function() {
+            location.reload();
+        })
 
         this.$gbMainButton = document.createElement("button");
-        this.$gbMainButton.textContent = "Main page";
-        this.$gbMainButton.setAttribute("class","p-2 bg-green-200 inline-block m-2")
+        this.$gbMainButton.textContent = "MAIN PAGE";
+        this.$gbMainButton.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
         
         this.$gbLeaderboardButton = document.createElement("button");
-        this.$gbLeaderboardButton.textContent = "Leaderboard"
-        this.$gbLeaderboardButton.setAttribute("class","p-2 bg-green-200 inline-block m-2")
+        this.$gbLeaderboardButton.textContent = "LEADERBOARD"
+        this.$gbLeaderboardButton.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
     }
     render(container) {
         this.$gBBackground.appendChild(this.$gbContainer);
@@ -53,6 +62,7 @@ export default class gameBeaten {
         this.$gbRecord.appendChild(this.$gbQuestNum);
         this.$gbRecord.appendChild(this.$gbPoint);
         this.$gbContainer.appendChild(this.$gbRecord);
+        this.$gbContainer.appendChild(this.$gbReplay);
         this.$gbContainer.appendChild(this.$gbMainButton);
         this.$gbContainer.appendChild(this.$gbLeaderboardButton);
         container.appendChild(this.$gBBackground);

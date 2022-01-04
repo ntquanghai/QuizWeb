@@ -59,10 +59,10 @@ export default class Main {
 
     constructor() {
         this.$mainContainer = document.createElement("div");
-        this.$mainContainer.setAttribute("class","flex flex-col-reverse h-screen p-4 bg-green-50")
+        this.$mainContainer.setAttribute("class","flex flex-col-reverse h-5/6 w-5/6 p-4 bg-white border-2 border-black m-auto");
 
         this.$mainQuestionsBox = document.createElement("div");
-        this.$mainQuestionsBox.setAttribute("class","flex flex-grow w-full text-8xl")
+        this.$mainQuestionsBox.setAttribute("class","flex flex-grow w-full text-6xl")
         
         this.$mainQuestionsText = document.createElement("div");
         this.$mainQuestionsText.setAttribute("class","m-auto flex-grow text-center");
@@ -74,7 +74,7 @@ export default class Main {
         this.$mainQuestionsImg.style.width = "600px";
 
         this.$mainDuration = document.createElement("div");
-        this.$mainDuration.setAttribute("class","flex border-black border");
+        this.$mainDuration.setAttribute("class","flex border-black border-2");
 
         this.$mainPointContainer = document.createElement("div");
         this.$mainPointContainer.setAttribute("class","flex");
@@ -154,7 +154,8 @@ export default class Main {
                     userId: "default",
                     username: "default",
                     points: points,
-                    questNum: questNum
+                    questNum: questNum,
+                    date: new Date()
                 }
                 console.log("go",dataObj);
                 clearInterval(intervalVar);
@@ -169,25 +170,25 @@ export default class Main {
         const flag = false;
         let ansArr = ["A","B","C","D"];
         let i = 0; 
+        const dataObj = {
+            userId: "default",
+            username: "default",
+            points: points,
+            questNum: questNum
+        }
 
             const arr = [];
             for(let i = 0; i < 15; i++) {
                 arr[i] = document.createElement("div");
                 arr[i].style.width = "6.66666666666%";
-                arr[i].setAttribute("class","bg-green-300 h-20")
+                arr[i].setAttribute("class","bg-green-300 h-16")
                 arr[i].id = i;
                 this.$mainDuration.appendChild(arr[i]);
             }
             if(questNum-1 === dataArr.length) {
-                const dataObj = {
-                    userId: "default",
-                    username: "default",
-                    points: points,
-                    questNum: questNum
-                }
-                console.log("hahahaha",dataObj);
                 document.getElementById("app").innerHTML = "";
-                const gb = new gameBeaten(questNum-1,points);
+                document.getElementById("app").setAttribute("class","");
+                const gb = new gameBeaten(questNum,points);
                 gb.render(document.getElementById("app"));
             }
             else {
@@ -214,12 +215,6 @@ export default class Main {
                         }
                         else {
                             clearInterval(intervalVar);
-                            const dataObj = {
-                                userId: "default",
-                                username: "default",
-                                points: points,
-                                questNum: questNum
-                            }
                             console.log("goWrong",dataObj);
                             let newMain = new gameOverModal(points);
                             newMain.render(document.getElementById("app"));
@@ -232,6 +227,7 @@ export default class Main {
     }
 
     render(container) {        
+        document.getElementById("app").classList.add("bg-green-50")
         this.$mainContainer.appendChild(this.$mainAns);
         this.runGame();
         this.$mainContainer.appendChild(this.$mainQuestionsBox);

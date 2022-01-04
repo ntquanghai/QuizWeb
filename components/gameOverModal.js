@@ -17,11 +17,11 @@ export default class gameOverModal {
     constructor(points) {
         this.$GOModalackgroundOverlay = document.createElement("div");
         this.$GOModalackgroundOverlay.setAttribute("class","w-screen h-screen fixed top-1/2 left-1/2 z-20")
-        this.$GOModalackgroundOverlay.style.backgroundColor = "rgba(0,0,0,0.1)"
+        this.$GOModalackgroundOverlay.style.backgroundColor = "rgba(0,0,0,0.2)"
         this.$GOModalackgroundOverlay.style.transform = "translate(-50%, -50%)";
 
         this.$GOModalContainer = document.createElement("div");
-        this.$GOModalContainer.setAttribute("class","fixed top-1/2 left-1/2 rounded-xl bg-white p-4 ")
+        this.$GOModalContainer.setAttribute("class","fixed top-1/2 left-1/2 rounded- bg-white p-4 border-2 border-black")
         this.$GOModalContainer.style.transform = "translate(-50%, -50%)";
 
         this.$GOModalTextbox = document.createElement("div");
@@ -37,16 +37,16 @@ export default class gameOverModal {
         this.$GOModalButtonsContainer.setAttribute("class","flex justify-between bg-grey-100 p-2");
         
         this.$GOModalReplay = document.createElement("button");
-        this.$GOModalReplay.setAttribute("class","px-2 py-1 bg-green-200 border-1 mx-2 w-32")
+        this.$GOModalReplay.setAttribute("class","px-2 py-1 bg-green-200 border-1 mx-2 w-32 border-black border hover:bg-green-300")
         this.$GOModalReplay.textContent = "Replay";
         
 
         this.$GOModalToLeaderboard = document.createElement("button");
-        this.$GOModalToLeaderboard.setAttribute("class","px-2 py-1 border-1 bg-green-200 mx-2 w-32");
+        this.$GOModalToLeaderboard.setAttribute("class","px-2 py-1 border-1 bg-green-200 mx-2 w-32 border-black border hover:bg-green-300");
         this.$GOModalToLeaderboard.textContent = "Leaderboard";
 
         this.$GOModalToMain = document.createElement("button");
-        this.$GOModalToMain.setAttribute("class","px-2 py-1 border-1 bg-green-200 mx-2 w-32");
+        this.$GOModalToMain.setAttribute("class","px-2 py-1 border-1 bg-green-200 mx-2 w-32 border-black border hover:bg-green-300");
         this.$GOModalToMain.textContent = "Main page";
     }
 
