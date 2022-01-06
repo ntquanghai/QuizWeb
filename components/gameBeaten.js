@@ -44,11 +44,8 @@ export default class gameBeaten {
         this.$gbReplay.textContent = "REPLAY";
         this.$gbReplay.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
         this.$gbReplay.addEventListener("click", async () => {
+            sessionStorage.setItem("Replay", "true");
             location.reload();
-
-            const newMain = new Main();
-            newMain.render(document.getElementById("app"));
-            await newMain.runGame();
         })
 
         this.$gbMainButton = document.createElement("button");

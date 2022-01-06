@@ -1,5 +1,8 @@
 import Main from "./index.js";
 import app from "../Login-Register/app.js";
+import { getAuth,signOut  } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+
+const auth = getAuth();
 
 export default class HomePage {
   $header;
@@ -17,6 +20,7 @@ export default class HomePage {
     this.$liScore = document.createElement("li");
     this.$liHis = document.createElement("li");
     this.$liHis.innerHTML = `<i class="fas fa-history"></i>Lịch sử`;
+    this.$liHis.addEventListener("click", ) 
 
     this.$btnPlay = document.createElement("button");
     this.$btnPlay.innerHTML = "CHƠI NGAY";
@@ -80,6 +84,14 @@ export default class HomePage {
       "class",
       "h-20 cursor-pointer p-2.5 relative overflow-hidden rank"
     );
+  }
+
+  signOut = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });    
   }
 
   goToPlay = () => {
