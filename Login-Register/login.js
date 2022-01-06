@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9
 import { auth } from "../components/outerImports.js";
 import InputType from "./input.js";
 import Register from "./register.js";
-import app from "./app.js"
+import app from "./app.js";
 
 class Login {
     //formLogin
@@ -96,9 +96,6 @@ class Login {
         this.$formLogin.appendChild(this.$switch);
         this.$formLogin.appendChild(this.$viaFb);
         this.$formLogin.appendChild(this.$viaGoogle);
-
-        
-        
 
         return container.appendChild(this.$formLogin);
     }

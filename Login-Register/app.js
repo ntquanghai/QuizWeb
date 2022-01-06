@@ -1,8 +1,8 @@
 import Register from "./register.js";
 import Login from "./login.js";
-import Main from "../components/index.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
 import { auth } from "../components/outerImports.js";
+import HomePage from "../components/homePage.js";
 
 const appRegister = new Register();
 
@@ -19,9 +19,11 @@ class App {
     setupAuthenticationListener() {
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            const mainScreen = new Main();
-            mainScreen.runGame();
-            this.setActiveScreen(mainScreen);
+            document.getElementById("app").setAttribute("class","");
+            document.getElementById("app").innerHTML = "";
+            const mainScreen = new HomePage();
+            // this.setActiveScreen(mainScreen);
+            mainScreen.render(document.getElementById("app"));
           } else {
             const loginScreen = new Login();
             this.setActiveScreen(loginScreen);

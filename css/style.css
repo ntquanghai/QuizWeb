@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap,https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  place-items: center;
+  /* background-image: url("../img/quiz-1-.jpg"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+header {
+  width: 100%;
+  top: 30px;
+}
+
+header .logo {
+  font-family: "Architects Daughter", cursive;
+  color: #000;
+  font-weight: 550;
+  font-size: 2rem;
+  text-transform: uppercase;
+  background-color: #ffe57e;
+  border: 3px solid #fff;
+  box-shadow: 3px 4px 4px #f39c12;
+  border-radius: 10px;
+  padding: 10px;
+}
+header .rank {
+  background-color: #fee140;
+  background-image: linear-gradient(90deg, #f1c40f 10%, #f39c12 100%);
+  border: 2px solid;
+  border-radius: 15px;
+}
+.rank::after {
+  position: absolute;
+  background-color: white;
+  opacity: 0.4;
+  width: 300%;
+  height: 100%;
+  top: -100px;
+  left: -50px;
+  content: "";
+  transform: rotate(45deg);
+  transition: all 0.8s ease;
+}
+.rank:hover::after {
+  top: 170px;
+  left: -210px;
+}
+header .rank img {
+  width: 100%;
+  height: 100%;
+}
+header .logo .fas {
+  padding-right: 30px;
+  color: linear-gradient(90deg, #fee140 0%, #fa709a 100%);
+}
+
+header .navbar ul {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+}
+
+header .navbar ul li {
+  font-family: "Lobster", cursive;
+  margin: 0 2rem;
+  font-size: 1.5rem;
+  background-color: #fee140;
+  background-image: linear-gradient(90deg, #f1c40f 10%, #f39c12 100%);
+  border: 2px solid;
+  border-radius: 15px;
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+header .navbar ul li::after {
+  position: absolute;
+  background-color: white;
+  opacity: 0.4;
+  width: 300%;
+  height: 100%;
+  top: -100px;
+  left: -50px;
+  content: "";
+  transform: rotate(45deg);
+  transition: all 0.8s ease;
+}
+header .navbar ul li:hover::after {
+  top: 250px;
+  left: -100px;
+}
+
+header .navbar ul li:last-child {
+  margin-left: 0;
+}
+header .navbar ul li .fas {
+  font-size: 2 rem;
+  color: #000;
+  padding-right: 10px;
+}
+header .navbar ul li a {
+  font-size: 1.5rem;
+  color: #000;
+  text-decoration: none;
+}
+
+header .navbar ul li a:hover {
+  color: #fff;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+.logo-main {
+  margin-bottom: 50px;
+}
+.logo-main img {
+  width: 350px;
+  height: 350px;
+}
+
+.center {
+  top: 80%;
+  transform: translate(-50%, -50%);
+}
+.center button {
+  width: 350px;
+  height: 80px;
+  line-height: 78px;
+  font-size: 40px;
+  font-weight: 700;
+  font-family: "Mochiy Pop P One", sans-serif;
+  background-color: #6692f3;
+  background-image: linear-gradient(100deg, #ebaf2e 20%, #87adfe 100%);
+  border: 0;
+  color: #000;
+  border-radius: 50px;
+  letter-spacing: 3px;
+  box-shadow: 6px 0px 0px #feba29;
+  outline: transparent;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.center button:hover {
+  transform: scaleX(1.2) scaleY(1.2);
+}
