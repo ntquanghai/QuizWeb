@@ -98,6 +98,12 @@ export default class HomePage {
     // this.$container.render(mainContainer);
 
     container.appendChild(mainContainer);
+    if(sessionStorage.getItem("Replay")) {
+      let newMain = new Main();
+      document.getElementById("app").innerHTML = "";
+      newMain.render(document.getElementById("app"));
+      newMain.runGame();
+    }
   }
 }
 // const main = new HomePage();

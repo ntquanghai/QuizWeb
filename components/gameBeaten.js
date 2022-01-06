@@ -43,16 +43,21 @@ export default class gameBeaten {
         this.$gbReplay = document.createElement("button");
         this.$gbReplay.textContent = "REPLAY";
         this.$gbReplay.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
-        this.$gbReplay.addEventListener("click", function() {
+        this.$gbReplay.addEventListener("click", async () => {
             location.reload();
+
             const newMain = new Main();
             newMain.render(document.getElementById("app"));
-            newMain.runGame();
+            await newMain.runGame();
         })
 
         this.$gbMainButton = document.createElement("button");
         this.$gbMainButton.textContent = "MAIN PAGE";
         this.$gbMainButton.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
+        this.$gbMainButton.addEventListener("click", function() {
+            sessionStorage.removeItem("Replay");
+            location.reload();
+        })
         
         this.$gbLeaderboardButton = document.createElement("button");
         this.$gbLeaderboardButton.textContent = "LEADERBOARD"

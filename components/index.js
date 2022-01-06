@@ -188,6 +188,7 @@ export default class Main {
             }
 
             if(questNum-1 === dataArr.length) {
+                sessionStorage.removeItem("Replay");
                 document.getElementById("app").innerHTML = "";
                 document.getElementById("app").setAttribute("class","");
                 const gb = new gameBeaten(questNum,points);
@@ -231,7 +232,7 @@ export default class Main {
     }
 
     render(container) {        
-        document.getElementById("app").classList.add("bg-green-50")
+        document.getElementById("app").setAttribute("class","w-screen h-screen flex bg-green-50")
         this.$mainContainer.appendChild(this.$mainAns);
         this.$mainContainer.appendChild(this.$mainQuestionsBox);
 

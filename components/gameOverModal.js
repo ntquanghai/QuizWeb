@@ -50,14 +50,24 @@ export default class gameOverModal {
         this.$GOModalToMain.textContent = "Main page";
     }
 
+    replay() { 
+
+        const newMain = new Main();
+        newMain.render(document.getElementById("app"));
+        newMain.runGame();
+    }
+
     render(container) {
         this.$GOModalackgroundOverlay.appendChild(this.$GOModalContainer);
 
-        this.$GOModalReplay.addEventListener("click", function() {
+        this.$GOModalToMain.addEventListener("click", function() {
+            sessionStorage.removeItem("Replay");
             location.reload();
-            const newMain = new Main();
-            newMain.render(document.getElementById("app"));
-            newMain.runGame();
+        })
+
+        this.$GOModalReplay.addEventListener("click", function() {
+            sessionStorage.setItem("Replay", "true");
+            location.reload();
         })
 
         this.$GOModalToLeaderboard.addEventListener("click", function() {
