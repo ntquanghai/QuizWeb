@@ -1,3 +1,5 @@
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+import { auth } from "../components/outerImports.js";
 import InputType from "./input.js";
 import Register from "./register.js";
 import app from "./app.js"
@@ -53,7 +55,7 @@ class Login {
         this.$submit.type = "button";
         this.$submit.textContent = "login";
         this.$submit.setAttribute("class"," py-2 px-20 bg-white m-auto mb-10 border-solid border-4 border-blue-500 hover:bg-blue-500 rounded-lg uppercase font-black")
-        this.$submit.addEventListener("click",this.handleSubmitLogin);
+        this.$submit.addEventListener("click",this.handleLogin);
 
         this.$switch = document.createElement("button");
         this.$switch.type = "button";
@@ -62,6 +64,22 @@ class Login {
         this.$switch.setAttribute("class"," flex absolute right-4 py-2 px-4 border-solid border-4 border-blue-400 rounded-lg uppercase bg-indigo-600 text-white transform hover:scale-110 motion-reduce:transform-none  font-black");
         
     }
+
+    handleLogin = (e) => {
+        e.preventDefault();
+    
+        const email = this.$email.getValue();
+        const password = this.$password.getValue();
+    
+        signInWithEmailAndPassword(auth, email, password)
+          .then((user) => {
+            
+          })
+          .catch((error) => {
+            console.log("Failure to log in");
+            alert(error.message);
+          });
+      };
 
     switchRegister = () => {
         const registerScreen = new Register();

@@ -23,6 +23,7 @@ function shuffle(array) {
   
     return array;
 }
+
 const db = getFirestore();
 const questionData = collection(db, "questionData"); 
 const getDoc = getDocs(questionData)
@@ -99,12 +100,7 @@ export default class Main {
 
         this.$mainAns = document.createElement("div");
         this.$mainAns.setAttribute("class","flex");
-    }
-
-    resetPoints() {
-        points = 0;
-        questNum = 1;
-        dataArr =[];
+        
     }
 
     shuffle(array) {
@@ -190,10 +186,12 @@ export default class Main {
                 arr[i].id = i;
                 this.$mainDuration.appendChild(arr[i]);
             }
+
             if(questNum-1 === dataArr.length) {
                 document.getElementById("app").innerHTML = "";
                 document.getElementById("app").setAttribute("class","");
                 const gb = new gameBeaten(questNum,points);
+                clearInterval(intervalVar);
                 gb.render(document.getElementById("app"));
             }
             else {
@@ -217,6 +215,7 @@ export default class Main {
                             document.getElementById("app").innerHTML = "";
                             let newMain = new Main();
                             newMain.render(document.getElementById("app"));
+                            newMain.runGame();
                         }
                         else {
                             clearInterval(intervalVar);
@@ -234,7 +233,6 @@ export default class Main {
     render(container) {        
         document.getElementById("app").classList.add("bg-green-50")
         this.$mainContainer.appendChild(this.$mainAns);
-        this.runGame();
         this.$mainContainer.appendChild(this.$mainQuestionsBox);
 
         this.$mainPointContainer.appendChild(this.$mainQuestionIndex);

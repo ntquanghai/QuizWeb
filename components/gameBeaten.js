@@ -47,6 +47,7 @@ export default class gameBeaten {
             location.reload();
             const newMain = new Main();
             newMain.render(document.getElementById("app"));
+            newMain.runGame();
         })
 
         this.$gbMainButton = document.createElement("button");

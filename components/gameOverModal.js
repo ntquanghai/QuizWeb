@@ -55,6 +55,9 @@ export default class gameOverModal {
 
         this.$GOModalReplay.addEventListener("click", function() {
             location.reload();
+            const newMain = new Main();
+            newMain.render(document.getElementById("app"));
+            newMain.runGame();
         })
 
         this.$GOModalToLeaderboard.addEventListener("click", function() {
