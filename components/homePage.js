@@ -4,6 +4,7 @@ import {
   getAuth,
   signOut,
 } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+import leaderboard from "./leaderboard.js";
 
 const auth = getAuth();
 
@@ -66,6 +67,10 @@ export default class HomePage {
     iMaxLevel.setAttribute("class", "fas fa-user-circle");
 
     imgRank.src = "./img/logoRanking.png";
+    imgRank.addEventListener("click", function() {
+        console.log("asdfasdf");
+        app.setActiveScreen(new leaderboard);
+    })
 
     loginName.appendChild(iMaxLevel);
     loginName.appendChild(user);
@@ -87,9 +92,7 @@ export default class HomePage {
     this.$liScore.appendChild(score);
 
     score.innerHTML = "HIGHEST SCORE:";
-    score.addEventListener("click", function() {
 
-    })
 
     this.$header.appendChild(nav);
     this.$header.appendChild(rank);
