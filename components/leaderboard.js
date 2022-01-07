@@ -20,13 +20,19 @@ getUserData.then((data) => {
 });
 await getUserData;
 
-const fieldSorter = (fields) => (a, b) => fields.map(o => {
-    let dir = 1;
-    if (o[0] === '-') { dir = -1; o=o.substring(1); }
-    return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
-}).reduce((p, n) => p ? p : n, 0);
+const fieldSorter = (fields) => (a, b) =>
+  fields
+    .map((o) => {
+      let dir = 1;
+      if (o[0] === "-") {
+        dir = -1;
+        o = o.substring(1);
+      }
+      return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
+    })
+    .reduce((p, n) => (p ? p : n), 0);
 
-let haha = dataUser.sort( (fieldSorter(['points','-timePlay'])) ).reverse();
+let haha = dataUser.sort(fieldSorter(["points", "-timePlay"])).reverse();
 console.log(haha);
 
 export default class leaderboard {
@@ -66,6 +72,7 @@ export default class leaderboard {
 
     this.$lbBoardContainer = document.createElement("table");
     this.$lbBoardContainer.style.width = "100%";
+    this.$lbBoardContainer.style.overflow = "scroll";
 
     this.$lbBoardHeaderContainer = document.createElement("thead");
 
@@ -101,21 +108,30 @@ export default class leaderboard {
   }
 
   convertHMS(value) {
-    const sec = parseInt(value, 10); // convert value to number if it's string
-    let hours   = Math.floor(sec / 3600); // get hours
-    let minutes = Math.floor((sec - (hours * 3600)) / 60); // get minutes
-    let seconds = sec - (hours * 3600) - (minutes * 60); //  get seconds
-    // add 0 if value < 10; Example: 2 => 02
-    if (hours   < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+seconds; // Return is HH : MM : SS
-}
+    const sec = parseInt(value, 10);
+    let hours = Math.floor(sec / 3600);
+    let minutes = Math.floor((sec - hours * 3600) / 60);
+    let seconds = sec - hours * 3600 - minutes * 60;
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    return hours + ":" + minutes + ":" + seconds;
+  }
 
   runTable(container) {
     const infoContainer = document.createElement("tbody");
-    for (let i = 0; i < haha.length; i++) {
+    for (let i = 0; i < 10; i++) {
+    
       let tableRow = document.createElement("tr");
+      if(i%2==0) {
+          tableRow.setAttribute("class","bg-gray-200");
+      }
 
       let rowRank = document.createElement("td");
       rowRank.setAttribute(
