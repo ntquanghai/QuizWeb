@@ -1,4 +1,4 @@
-import Main from "./index.js"
+import Main from "./gamePage.js"
 
 export default class gameBeaten {
     $gbMainContainer

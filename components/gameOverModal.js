@@ -1,5 +1,5 @@
-import Main from "./index.js"
-import points from "./index.js"
+import Main from "./gamePage.js"
+import points from "./gamePage.js"
 
 export default class gameOverModal {
     $GOModalContainer

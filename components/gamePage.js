@@ -3,12 +3,14 @@ import gameOverModal from "./gameOverModal.js";
 import gameBeaten from "./gameBeaten.js";
 import questionAdd from "./questionAdd.js";
 
-import { getFirestore, collection, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";  
+import { getFirestore, collection, doc, setDoc, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";  
+import { auth } from "./outerImports.js";
 
 let points = 0;
 let intervalVar;
 let questNum = 1;
 let dataArr =[];
+let dateStart = new Date();
 function shuffle(array) {
     let currentIndex = array.length,  randomIndex;
   
@@ -26,6 +28,7 @@ function shuffle(array) {
 
 const db = getFirestore();
 const questionData = collection(db, "questionData"); 
+const userData = collection(db, "userData");
 const getDoc = getDocs(questionData)
 getDoc.then((data) => {
     let dataArrTemp = [];
@@ -152,13 +155,16 @@ export default class Main {
             else {
                 textBox.textContent = "GAME OVER";
                 const dataObj = {
-                    userId: "default",
-                    username: "default",
+                    userId: auth.currentUser.uid,
+                    username: auth.currentUser.displayName,
+                    email: auth.currentUser.email,
                     points: points,
                     questNum: questNum,
-                    date: new Date()
+                    dateStart: dateStart,
+                    dateEnd: new Date(),
                 }
                 console.log("go",dataObj);
+                addDoc(userData,dataObj);
                 clearInterval(intervalVar);
                 const goModal = new gameOverModal(points);
                 goModal.render(mainCon);
@@ -171,12 +177,7 @@ export default class Main {
         const flag = false;
         let ansArr = ["A","B","C","D"];
         let i = 0; 
-        const dataObj = {
-            userId: "default",
-            username: "default",
-            points: points,
-            questNum: questNum
-        }
+        
 
             const arr = [];
             for(let i = 0; i < 15; i++) {
@@ -191,6 +192,17 @@ export default class Main {
                 sessionStorage.removeItem("Replay");
                 document.getElementById("app").innerHTML = "";
                 document.getElementById("app").setAttribute("class","");
+                const dataObj = {
+                    userId: auth.currentUser.uid,
+                    username: auth.currentUser.displayName,
+                    email: auth.currentUser.email,
+                    points: points,
+                    questNum: questNum,
+                    dateStart: dateStart,
+                    dateEnd: new Date(),
+                }
+                addDoc(userData,dataObj);
+                console.log(dataObj);
                 const gb = new gameBeaten(questNum,points);
                 clearInterval(intervalVar);
                 gb.render(document.getElementById("app"));
@@ -220,6 +232,16 @@ export default class Main {
                         }
                         else {
                             clearInterval(intervalVar);
+                            const dataObj = {
+                                userId: auth.currentUser.uid,
+                                username: auth.currentUser.displayName,
+                                email: auth.currentUser.email,
+                                points: points,
+                                questNum: questNum,
+                                dateStart: dateStart,
+                                dateEnd: new Date(),
+                            }
+                            addDoc(userData,dataObj);
                             console.log("goWrong",dataObj);
                             let newMain = new gameOverModal(points);
                             newMain.render(document.getElementById("app"));
@@ -231,8 +253,9 @@ export default class Main {
             } 
     }
 
-    render(container) {        
-        document.getElementById("app").setAttribute("class","w-screen h-screen flex bg-green-50")
+    render(container) {    
+        document.getElementById("app").innerHTML = "";    
+        document.getElementById("app").setAttribute("class","w-screen h-screen flex")
         this.$mainContainer.appendChild(this.$mainAns);
         this.$mainContainer.appendChild(this.$mainQuestionsBox);
 
