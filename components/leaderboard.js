@@ -58,7 +58,7 @@ export default class leaderboard {
     this.$lbContentHeader = document.createElement("div");
     this.$lbContentHeader.setAttribute(
       "class",
-      "text-8xl font-bold text-center p-4"
+      "text-8xl font-bold text-center p-4 text-yellow-300"
     );
     this.$lbContentHeader.textContent = "LEADERBOARD";
 

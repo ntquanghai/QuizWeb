@@ -36,7 +36,6 @@ if (auth.currentUser != null) {
         return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
       })
       .reduce((p, n) => (p ? p : n), 0);
-  dataArr.sort(fieldSorter(["points", "-timePlay"])).reverse();
 }
 
 export default class HomePage {

@@ -1,4 +1,5 @@
 import questionAddDetail from "./questionAddDetail.js"
+import header from "./header.js"
 
 export default class questionAdd {
     $qaMainContainer
@@ -11,7 +12,10 @@ export default class questionAdd {
 
     constructor() {
         this.$qaMainContainer = document.createElement("div");
-        this.$qaMainContainer.setAttribute("class","flex flex-col h-screen p-4")
+        this.$qaMainContainer.setAttribute("class","absolute flex flex-col h-2/3 w-2/3 p-4 bg-yellow-50 border-2 border-black");
+        this.$qaMainContainer.style.top = "50%";
+        this.$qaMainContainer.style.left = "50%";
+        this.$qaMainContainer.style.transform = "translate(-50%,-50%)"
 
         this.$qaContainer = document.createElement("div");
         this.$qaContainer.setAttribute("class","my-auto");
@@ -25,7 +29,7 @@ export default class questionAdd {
 
         this.$qaOptionText = document.createElement("button");
         this.$qaOptionText.textContent = "Text question";
-        this.$qaOptionText.setAttribute("class","p-20 text-xl border-2 rounded");
+        this.$qaOptionText.setAttribute("class","p-20 text-xl border-2 border-black bg-yellow-200 hover:bg-yellow-300");
         this.$qaOptionText.addEventListener("click", function() {
             document.getElementById("app").innerHTML = "";
             const toTextPage = new questionAddDetail("text");
@@ -34,7 +38,7 @@ export default class questionAdd {
 
         this.$qaOptionImg = document.createElement("button");
         this.$qaOptionImg.textContent = "Image question";
-        this.$qaOptionImg.setAttribute("class","p-20 text-xl border-2 rounded");
+        this.$qaOptionImg.setAttribute("class","p-20 text-xl border-2 border-black bg-yellow-200 hover:bg-yellow-300");
         this.$qaOptionImg.addEventListener("click", function() {
             document.getElementById("app").innerHTML = "";
             const toTextPage = new questionAddDetail("img");
@@ -44,6 +48,9 @@ export default class questionAdd {
 
 
     render(container) {
+        const newHeader = new header();
+        newHeader.render(document.getElementById("app"));
+
         container.appendChild(this.$qaMainContainer);
 
         this.$qaMainContainer.appendChild(this.$qaContainer);

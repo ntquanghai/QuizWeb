@@ -3,7 +3,24 @@ import HomePage from "./homePage.js"
 import leaderboard from "./leaderboard.js"
 import {auth} from "./outerImports.js"
 import { signOut } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-auth.js";
+import codeModal from "./codeModal.js";
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    addDoc,
+} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
+import questionAddDetail from "./questionAddDetail.js";
+import questionAdd from "./questionAdd.js"
+let editorListArr = [];
+const db = getFirestore();
+const editorList = collection(db,"editorList");
+const getEditorList = await getDocs(editorList);
 
+getEditorList.forEach((doc) => {
+  editorListArr.push(doc.data());
+})
+console.log(editorListArr[0]);
 
 export default class header {
     $headerContainer
@@ -12,14 +29,9 @@ export default class header {
     $headerLogo
     $headerHome
     $headerLeaderboard
-    $headerCurrentQuestions
+    $headerEditCode
 
     $profileMenuContainer
-    
-    $profileMenuPointer
-    $profileSignedInAsTxt
-    $profileMenuName
-    $profileSignOut
 
     $headerUsernameContainer
     $headerUsername
@@ -59,6 +71,29 @@ export default class header {
             lb.render(document.getElementById("app"));
         });
 
+        this.$headerEditCode = document.createElement("div")
+        this.$headerEditCode.setAttribute("class","text-xl cursor-pointer text-center my-auto px-4 hover:text-yellow-400")
+
+        for(let i = 0; i < editorListArr.length; i++) {
+            if(editorListArr[i].userId === auth.currentUser.uid) {
+                this.$headerEditCode.textContent = "ADD QUESTIONS";
+                this.$headerEditCode.addEventListener("click", function() {
+                    const addQuestion = new questionAdd();
+                    document.getElementById("app").innerHTML =  ""
+                    addQuestion.render(document.getElementById("app"));
+                })
+            }
+            else {   
+            this.$headerEditCode.textContent = "EDITOR'S INVITATION";
+            this.$headerEditCode.addEventListener("click", function() {
+                    const addQuestion = new codeModal();
+                    addQuestion.render(document.getElementById("app"));
+                })
+            }
+        }
+
+
+
         this.$headerHighestScore = document.createElement("div");
 
         this.$headerUsernameContainer = document.createElement("div");
@@ -88,9 +123,6 @@ export default class header {
         this.$profileMenuContainer = document.createElement("ul");
         this.$profileMenuContainer.setAttribute("class","flex flex-col")
 
-        this.$profileSignedInAsTxt = document.createElement("li");
-        this.$profileSignedInAsTxt.textContent = "Signed in as"
-
         this.$profileMenuName = document.createElement("li");
         this.$profileMenuName.textContent = "Username"
 
@@ -105,6 +137,7 @@ export default class header {
         this.$headerContentContainer.appendChild(this.$headerLogo)
         this.$headerContentContainer.appendChild(this.$headerHome);
         this.$headerContentContainer.appendChild(this.$headerLeaderboard);
+        this.$headerContentContainer.appendChild(this.$headerEditCode);
 
         this.$headerContainer.appendChild(this.$headerContentContainer);
 

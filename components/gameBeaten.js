@@ -1,4 +1,5 @@
 import Main from "./gamePage.js"
+import leaderboard from "./leaderboard.js"
 
 export default class gameBeaten {
     $gbMainContainer
@@ -59,6 +60,12 @@ export default class gameBeaten {
         this.$gbLeaderboardButton = document.createElement("button");
         this.$gbLeaderboardButton.textContent = "LEADERBOARD"
         this.$gbLeaderboardButton.setAttribute("class","p-2 bg-yellow-200 inline-block m-2 border-black border-2 hover:bg-yellow-300")
+        this.$gbLeaderboardButton.addEventListener("click", function() {
+            sessionStorage.removeItem("Replay");
+            const lb = new leaderboard;
+            document.getElementById("app").innerHTML = ""
+            lb.render(document.getElementById("app"))
+        })
     }
     render(container) {
         this.$gBBackground.appendChild(this.$gbContainer);

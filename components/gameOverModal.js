@@ -50,7 +50,6 @@ export default class gameOverModal {
     }
 
     replay() { 
-
         const newMain = new Main();
         newMain.render(document.getElementById("app"));
         newMain.runGame();

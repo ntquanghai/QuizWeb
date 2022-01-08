@@ -13,7 +13,7 @@ import {
   getFirestore,
   collection,
 } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
-
+import header from "./header.js";
 import answerBoxAdd from "./answerBoxAdd.js";
 
 let fileUrl;
@@ -77,14 +77,14 @@ export default class questionAddDetail {
     this.$qadTextMainContainer = document.createElement("div");
     this.$qadTextMainContainer.setAttribute(
       "class",
-      "flex-col border-2 flex h-40 justify-around p-4 ml-4 flex-grow my-auto bg-white"
+      "flex-col border-2 flex h-40 justify-around p-4 ml-4 my-auto bg-white w-2/3"
     );
 
     this.$qadTextContainer = document.createElement("div");
     this.$qadTextContainer.setAttribute("class", "text-2xl");
 
     this.$qadText = document.createElement("textarea");
-    this.$qadText.setAttribute("class", "focus:outline-none w-full");
+    this.$qadText.setAttribute("class", "focus:outline-none w-full bg-white");
     this.$qadText.id = "qadText";
     this.$qadText.placeholder = "Enter your question here.";
     this.$qadText.style.resize = "none";
@@ -133,11 +133,11 @@ export default class questionAddDetail {
     this.$qadButtonContainer.setAttribute("class", "flex justify-between");
 
     this.$qadToImgButton = document.createElement("button");
-    this.$qadToImgButton.setAttribute("class", "bg-green-400 p-2 m-2");
+    this.$qadToImgButton.setAttribute("class", "bg-yellow-400 p-2 m-2");
     this.$qadToImgButton.textContent = "Image question";
 
     this.$submitButton = document.createElement("button");
-    this.$submitButton.setAttribute("class", "bg-green-400 p-2 m-2");
+    this.$submitButton.setAttribute("class", "bg-yellow-400 p-2 m-2");
     this.$submitButton.textContent = "Submit";
 
     this.$submitButton.addEventListener("click", this.handleSubmit);
@@ -165,7 +165,9 @@ export default class questionAddDetail {
     e.preventDefault();
 
     const validated = this.conditionUpload();
-    console.log("Succesful");
+    alert("Data submitted.")
+
+
     if (validated !== null) {
       addDoc(questionData, validated);
     }
@@ -299,9 +301,11 @@ export default class questionAddDetail {
 
   render(container) {
     if (this._textOrImg === "text") {
+      const newHeader = new header();
+      newHeader.render(document.getElementById("app"));
       this.$qadContainer.setAttribute(
         "class",
-        "flex flex-col p-20 m-auto fixed border-2 border-black bg-white rounded"
+        "flex flex-col p-20 m-auto fixed border-2 border-black bg-yellow-50 rounded"
       );
       this.$qadContainer.style.top = "50%";
       this.$qadContainer.style.left = "50%";
@@ -336,14 +340,21 @@ export default class questionAddDetail {
 
       this.$qadMainContainer.appendChild(this.$qadContainer);
 
-      this.$qadMainContainer.setAttribute("class", "bg-green-50 h-screen");
+      this.$qadMainContainer.setAttribute("class", "");
       container.appendChild(this.$qadMainContainer);
 
       this.$qadToImgButton.addEventListener("click", this.toImgPage);
     } else if (this._textOrImg === "img") {
+      const newHeader = new header();
+      newHeader.render(document.getElementById("app"));
       this.$qadMainContainer.appendChild(this.$qadContainer);
-      this.$qadMainContainer.setAttribute("class", "bg-green-50 h-screen");
-      this.$qadContainer.setAttribute("class", "flex flex-col h-full p-4");
+      this.$qadMainContainer.setAttribute("class", "absolute bg-yellow-50 w-5/6 border-2 border-black");
+      this.$qadMainContainer.style.top = "54%";
+      this.$qadMainContainer.style.left = "50%";
+      this.$qadMainContainer.style.transform = "translate(-50%, -50%)";
+      this.$qadMainContainer.height = "90%";
+
+      this.$qadContainer.setAttribute("class", "flex flex-col h-5/6 p-4");
 
       this.$qadContentContainer.appendChild(this.$qadImg);
 
