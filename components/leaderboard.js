@@ -257,7 +257,7 @@ export default class leaderboard {
   render(container) {
     document
       .getElementById("app")
-      .setAttribute("class", "w-screen h-screen flex");
+      .setAttribute("class", "w-screen h-screen");
 
     this.$lbBoardHeader.appendChild(this.$lbBoardRank);
     this.$lbBoardHeader.appendChild(this.$lbBoardName);
