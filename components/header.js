@@ -20,7 +20,6 @@ const getEditorList = await getDocs(editorList);
 getEditorList.forEach((doc) => {
   editorListArr.push(doc.data());
 })
-console.log(editorListArr[0]);
 
 export default class header {
     $headerContainer

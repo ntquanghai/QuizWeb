@@ -21,6 +21,22 @@ const db = getFirestore();
     });
     await getUserData;
 
+
+    function topSort(array) {
+      let filterArr =[];
+      for(let i = 0; i < array.length; i++) {
+        if(filterArr.includes(array[i].username)) {
+          array.splice(array[i],1);
+          i--;
+        }
+        else {
+        }
+        filterArr.push(array[i].username);
+      }
+      return array
+    }
+
+
 export default class leaderboard {
   $lbMainContainer;
   $lbContainer;
@@ -127,54 +143,114 @@ export default class leaderboard {
     let dataUserArr = dataUser
       .sort(fieldSorter(["points", "-timePlay"]))
       .reverse();
+      let filterArr =[];
+      for(let i = 0; i < dataUserArr.length; i++) {
+        if(filterArr.includes(dataUserArr[i].username)) {
+          dataUserArr.splice(i,1);
+          i--;
+        }
+        else {
+          filterArr.push(dataUserArr[i].username);
+        }
+      }
     const infoContainer = document.createElement("tbody");
-    for (let i = 0; i < 10; i++) {
-      let tableRow = document.createElement("tr");
-      if (i % 2 == 0) {
-        tableRow.setAttribute("class", "bg-gray-200");
+    if(dataUserArr.length < 10) {
+      for (let i = 0; i < dataUserArr.length; i++) {
+        let tableRow = document.createElement("tr");
+        if (i % 2 == 0) {
+          tableRow.setAttribute("class", "bg-gray-200");
+        }
+        let rowRank = document.createElement("td");
+        rowRank.setAttribute(
+          "class",
+          "text-center py-2 px-8 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        rowRank.textContent = i + 1;
+  
+        let rowName = document.createElement("td");
+        rowName.setAttribute(
+          "class",
+          "text-center flex-grow py-2 px-2 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        if(dataUserArr[i].username === auth.currentUser.displayName) {
+          rowName.textContent = dataUserArr[i].username + " (You)";
+        } 
+        else {
+          rowName.textContent = dataUserArr[i].username;
+        }
+  
+  
+        let rowPoints = document.createElement("td");
+        rowPoints.setAttribute(
+          "class",
+          "text-center py-2 px-4 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        rowPoints.textContent = dataUserArr[i].points;
+  
+        let rowDate = document.createElement("td");
+        rowDate.setAttribute(
+          "class",
+          "text-center py-2 px-4 border-2 border-black whitespace-nowrap"
+        );
+        rowDate.textContent = this.convertHMS(dataUserArr[i].timePlay);
+  
+        tableRow.appendChild(rowRank);
+        tableRow.appendChild(rowName);
+        tableRow.appendChild(rowPoints);
+        tableRow.appendChild(rowDate);
+  
+        infoContainer.appendChild(tableRow);
       }
-
-      let rowRank = document.createElement("td");
-      rowRank.setAttribute(
-        "class",
-        "text-center py-2 px-8 border-l-2 border-t-2 border-b-2 border-black"
-      );
-      rowRank.textContent = i + 1;
-
-      let rowName = document.createElement("td");
-      rowName.setAttribute(
-        "class",
-        "text-center flex-grow py-2 px-2 border-l-2 border-t-2 border-b-2 border-black"
-      );
-      if(dataUserArr[i].username === auth.currentUser.displayName) {
-        rowName.textContent = dataUserArr[i].username + " (You)";
-      } 
-      else {
-        rowName.textContent = dataUserArr[i].username;
-      }
-
-
-      let rowPoints = document.createElement("td");
-      rowPoints.setAttribute(
-        "class",
-        "text-center py-2 px-4 border-l-2 border-t-2 border-b-2 border-black"
-      );
-      rowPoints.textContent = dataUserArr[i].points;
-
-      let rowDate = document.createElement("td");
-      rowDate.setAttribute(
-        "class",
-        "text-center py-2 px-4 border-2 border-black whitespace-nowrap"
-      );
-      rowDate.textContent = this.convertHMS(dataUserArr[i].timePlay);
-
-      tableRow.appendChild(rowRank);
-      tableRow.appendChild(rowName);
-      tableRow.appendChild(rowPoints);
-      tableRow.appendChild(rowDate);
-
-      infoContainer.appendChild(tableRow);
     }
+    else {
+      for (let i = 0; i < 10; i++) {
+        let tableRow = document.createElement("tr");
+        if (i % 2 == 0) {
+          tableRow.setAttribute("class", "bg-gray-200");
+        }
+        let rowRank = document.createElement("td");
+        rowRank.setAttribute(
+          "class",
+          "text-center py-2 px-8 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        rowRank.textContent = i + 1;
+  
+        let rowName = document.createElement("td");
+        rowName.setAttribute(
+          "class",
+          "text-center flex-grow py-2 px-2 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        if(dataUserArr[i].username === auth.currentUser.displayName) {
+          rowName.textContent = dataUserArr[i].username + " (You)";
+        } 
+        else {
+          rowName.textContent = dataUserArr[i].username;
+        }
+  
+  
+        let rowPoints = document.createElement("td");
+        rowPoints.setAttribute(
+          "class",
+          "text-center py-2 px-4 border-l-2 border-t-2 border-b-2 border-black"
+        );
+        rowPoints.textContent = dataUserArr[i].points;
+  
+        let rowDate = document.createElement("td");
+        rowDate.setAttribute(
+          "class",
+          "text-center py-2 px-4 border-2 border-black whitespace-nowrap"
+        );
+        rowDate.textContent = this.convertHMS(dataUserArr[i].timePlay);
+  
+        tableRow.appendChild(rowRank);
+        tableRow.appendChild(rowName);
+        tableRow.appendChild(rowPoints);
+        tableRow.appendChild(rowDate);
+  
+        infoContainer.appendChild(tableRow);
+      }
+    }
+    
     container.appendChild(infoContainer);
   }
 
