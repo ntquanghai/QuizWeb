@@ -79,7 +79,7 @@ export default class header {
                 this.$headerEditCode.textContent = "ADD QUESTIONS";
                 this.$headerEditCode.addEventListener("click", function() {
                     const addQuestion = new questionAdd();
-                    document.getElementById("app").innerHTML =  ""
+                    document.getElementById("app").innerHTML = "";
                     addQuestion.render(document.getElementById("app"));
                 })
             }

@@ -35,6 +35,11 @@ export default class answerBoxAdd {
         return this.$boxAnsText.value;
     }
 
+    clearValue() {
+        this.$boxAnsText.value = "";
+        return this.$boxAnsText.value;
+    }
+
     selectAns = (e) => {
         e.currentTarget.children[0].setAttribute("class","text-center block");
         e.currentTarget.parentNode.parentNode.classList.remove("false");

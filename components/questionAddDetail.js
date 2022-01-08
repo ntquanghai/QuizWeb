@@ -133,14 +133,14 @@ export default class questionAddDetail {
     this.$qadButtonContainer.setAttribute("class", "flex justify-between");
 
     this.$qadToImgButton = document.createElement("button");
-    this.$qadToImgButton.setAttribute("class", "bg-yellow-400 p-2 m-2");
+    this.$qadToImgButton.setAttribute("class", "bg-yellow-300 p-2 m-2 hover:bg-yellow-400");
     this.$qadToImgButton.textContent = "Image question";
 
     this.$submitButton = document.createElement("button");
-    this.$submitButton.setAttribute("class", "bg-yellow-400 p-2 m-2");
+    this.$submitButton.setAttribute("class", "bg-yellow-300 p-2 m-2 hover:bg-yellow-400");
     this.$submitButton.textContent = "Submit";
 
-    this.$submitButton.addEventListener("click", this.handleSubmit);
+
 
     this._textOrImg = textOrImg;
   }
@@ -161,17 +161,44 @@ export default class questionAddDetail {
     this.$qadTextCharCurr.textContent = this.$qadText.value.length;
   };
 
-  handleSubmit = (e) => {
+  handleSubmitText = (e) => {
     e.preventDefault();
 
     const validated = this.conditionUpload();
     alert("Data submitted.")
-
+    document.getElementById("qadText").value = "";
+    this.$qadAns0.clearValue();
+    this.$qadAns1.clearValue();
+    this.$qadAns2.clearValue();
+    this.$qadAns3.clearValue();
+    for(let i = 0; i < 4; i++) {
+      document.getElementById("q"+i).children[0].children[2].children[0].setAttribute("class","text-center hidden");
+    }
 
     if (validated !== null) {
       addDoc(questionData, validated);
     }
   };
+
+  handleSubmitImg = (e) => {
+    e.preventDefault();
+
+    const validated = this.conditionUpload();
+    alert("Data submitted.")
+    document.getElementById("qadImg").src = "../img/screen-1.jpg";
+    document.getElementById("qadText").value = "";
+    this.$qadAns0.clearValue();
+    this.$qadAns1.clearValue();
+    this.$qadAns2.clearValue();
+    this.$qadAns3.clearValue();
+    for(let i = 0; i < 4; i++) {
+      document.getElementById("q"+i).children[0].children[2].children[0].setAttribute("class","text-center hidden");
+    }
+
+    if (validated !== null) {
+      addDoc(questionData, validated);
+    }
+  }
 
   elLength(element) {
     return element.replace(/\s/g, "").length;
@@ -344,6 +371,8 @@ export default class questionAddDetail {
       container.appendChild(this.$qadMainContainer);
 
       this.$qadToImgButton.addEventListener("click", this.toImgPage);
+      this.$submitButton.addEventListener("click", this.handleSubmitText);
+
     } else if (this._textOrImg === "img") {
       const newHeader = new header();
       newHeader.render(document.getElementById("app"));
@@ -402,6 +431,8 @@ export default class questionAddDetail {
           reader.readAsDataURL(document.getElementById("myFile").files[0]);
         }
       });
+
+      this.$submitButton.addEventListener("click", this.handleSubmitImg);
     }
   }
 }
