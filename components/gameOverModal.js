@@ -1,5 +1,6 @@
 import Main from "./gamePage.js"
 import points from "./gamePage.js"
+import leaderboard from "./leaderboard.js"
 
 export default class gameOverModal {
     $GOModalContainer
@@ -69,7 +70,9 @@ export default class gameOverModal {
         })
 
         this.$GOModalToLeaderboard.addEventListener("click", function() {
-
+            document.getElementById("app").innerHTML = "";
+            const newlb = new leaderboard();
+            newlb.render(document.getElementById("app"));
         })
 
 
