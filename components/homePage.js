@@ -37,7 +37,6 @@ if (auth.currentUser != null) {
       })
       .reduce((p, n) => (p ? p : n), 0);
   dataArr.sort(fieldSorter(["points", "-timePlay"])).reverse();
-  console.log(dataArr[0].dateEnd.seconds);
 }
 
 export default class HomePage {
@@ -53,9 +52,11 @@ export default class HomePage {
   $centerModalPlayDataContainer;
 
   $centerModalPlayDataText;
+
+  $centerModalPlayDataRecord;
   $centerModalPlayDataHighScore;
   $centerModalPlayDataTimeCompleted;
-  $centerModalPlayDataTimeLast;
+
 
   $centerModalBtnPlayContainer;
 
@@ -170,37 +171,46 @@ export default class HomePage {
     );
 
     this.$centerModalPlayDataHighScore = document.createElement("div");
-    this.$centerModalPlayDataHighScore.textContent =
+    if(dataArr.length != 0) {
+      this.$centerModalPlayDataHighScore.textContent =
       "Highest score: " + dataArr[0].points;
+    }
     this.$centerModalPlayDataHighScore.setAttribute(
       "class",
       "text-center text-2xl"
     );
 
     this.$centerModalPlayDataTimeCompleted = document.createElement("div");
-    this.$centerModalPlayDataTimeCompleted.textContent =
+    if(dataArr.length != 0) {
+      this.$centerModalPlayDataTimeCompleted.textContent =
       "Time completed: " + this.convertHMS(dataArr[0].timePlay);
+    }
     this.$centerModalPlayDataTimeCompleted.setAttribute(
       "class",
       "text-center text-2xl"
     );
 
-    this.$centerModalPlayDataTimeLast = document.createElement("div");
-    // this.$centerModalPlayDataTimeLast.textContent = "Last time played: " + this.toDateTime(dataArr[0].dateEnd.seconds);
-    // this.$centerModalPlayDataTimeLast.setAttribute("class","text-center text-2xl");
-
     this.$centerModalPlayDataContainer.appendChild(
       this.$centerModalPlayDataText
     );
-    this.$centerModalPlayDataContainer.appendChild(
-      this.$centerModalPlayDataTimeLast
-    );
-    this.$centerModalPlayDataContainer.appendChild(
-      this.$centerModalPlayDataHighScore
-    );
-    this.$centerModalPlayDataContainer.appendChild(
-      this.$centerModalPlayDataTimeCompleted
-    );
+
+    this.$centerModalPlayDataRecord = document.createElement("div")
+    this.$centerModalPlayDataRecord.setAttribute("class","flex flex-col");
+    
+    if(dataArr.length === 0) {
+      this.$centerModalPlayDataRecord.setAttribute("class","text-center text-2xl")
+      this.$centerModalPlayDataRecord.textContent = "You haven't played yet!"
+    }
+    else {
+      this.$centerModalPlayDataRecord.appendChild(
+        this.$centerModalPlayDataHighScore
+      );
+      this.$centerModalPlayDataRecord.appendChild(
+        this.$centerModalPlayDataTimeCompleted
+      );
+    }
+
+    this.$centerModalPlayDataContainer.appendChild(this.$centerModalPlayDataRecord);
 
     this.$centerModal.appendChild(this.$centerModalText);
     this.$centerModal.appendChild(this.$centerModalPlayDataContainer);

@@ -10,30 +10,41 @@ import Login from "./login.js";
 
 class Register {
   //main
-  $containerRegister;
+  $mainContainerRegister;
 
   //head
   $header;
   $logoEl;
 
   //form
+  $containerRegister;
   $formRegister;
   $contentRegisterEl;
   $displayNameEl;
   $emailEl;
   $passwordEL;
   $confirmPasswordEl;
+
   $submit;
+
+  $switchBox;
+  $switchBoxTextContainer;
+  $switchBoxText;
   $switch;
 
   constructor() {
     // main
-    this.$containerRegister = document.createElement("div");
-    this.$containerRegister.setAttribute(
+    this.$mainContainerRegister = document.createElement("div");
+    this.$mainContainerRegister.setAttribute(
     "class",
-    "w-screen relative flex h-screen"
+    "w-screen relative h-screen"
     );
 
+    this.$containerRegister = document.createElement("div");
+    this.$containerRegister.setAttribute("class","absolute w-1/3");
+    this.$containerRegister.style.top = "50%";
+    this.$containerRegister.style.left = "50%";
+    this.$containerRegister.style.transform = "translate(-50%,-50%)";
     // header
     // this.$header = document.createElement("div");
     // this.$header.setAttribute("class",
@@ -50,21 +61,18 @@ class Register {
     this.$formRegister = document.createElement("form");
     this.$formRegister.setAttribute(
     "class",
-    " absolute w-1/3 bg-green-100 py-6 px-12 rounded-lg border-solid border-4 border-green-500 "
+    "bg-yellow-100 py-6 px-12 rounded-lg border-2 border-black flex flex-col"
     );
-    this.$formRegister.style.top = "50%";
-    this.$formRegister.style.left = "50%";
-    this.$formRegister.style.transform = "translate(-50%,-50%)";
 
     this.$contentRegisterEl = document.createElement("p");
-    this.$contentRegisterEl.textContent = "Join With Us";
+    this.$contentRegisterEl.textContent = "JOIN QUIZZY";
     this.$contentRegisterEl.setAttribute(
     "class",
-    "sticky pb-5 text-xl font-black uppercase text-center "
+    "sticky pb-5 text-5xl text-yellow-300 font-black text-center "
     );
 
     this.$displayNameEl = new InputType(
-      "DisplayName",
+      "Username",
       "text",
       "Enter your full name"
     );
@@ -88,19 +96,30 @@ class Register {
     this.$submit.textContent = "Register";
     this.$submit.setAttribute(
     "class",
-    "w-full py-2 px-20 m-auto mb-4 mt-4 border-solid bg-blue-600 text-white ring ring-blue-400 ring-offset-4 ring-offset-blue-300 ring-offset-blue-30 transform hover:scale-110 motion-reduce:transform-none rounded-lg uppercase font-black"
+    "py-2 px-20 mx-auto border-solid bg-yellow-300 text-white text-2xl"
     );
     this.$submit.addEventListener("click", this.handleSubmit);
+    
+    // this.$switch.textContent = "go login";
+    // this.$switch.addEventListener("click", this.switchLogin);
+    // this.$switch.setAttribute(
+    // "class",
+    // " relative absolute -right-72 py-2 px-4 mt-4 border-solid bg-blue-600 text-white ring ring-blue-400 ring-offset-4 ring-offset-blue-300 ring-offset-blue-30 transform hover:scale-110 motion-reduce:transform-none rounded-lg uppercase font-black"
+    // );
+    this.$switchBox = document.createElement("div");
+    this.$switchBox.setAttribute("class","p-8 bg-yellow-100 mt-4 rounded border-2 border-black flex text-xl");
+    
+    this.$switchBoxTextContainer = document.createElement("div");
+    this.$switchBoxTextContainer.setAttribute("class","flex mx-auto")
+
+    this.$switchBoxText = document.createElement("div");
+    this.$switchBoxText.textContent = "Already got an account?"
 
     this.$switch = document.createElement("button");
     this.$switch.type = "button";
-    this.$switch.textContent = "go login";
+    this.$switch.textContent = "Click here!";
     this.$switch.addEventListener("click", this.switchLogin);
-    this.$switch.setAttribute(
-    "class",
-    " relative absolute -right-72 py-2 px-4 mt-4 border-solid bg-blue-600 text-white ring ring-blue-400 ring-offset-4 ring-offset-blue-300 ring-offset-blue-30 transform hover:scale-110 motion-reduce:transform-none rounded-lg uppercase font-black"
-    );
-  
+    this.$switch.setAttribute("class","font-bold ml-1 hover:text-yellow-300")
   }
 
   switchLogin = () => {
@@ -194,12 +213,17 @@ class Register {
     this.$formRegister.appendChild(this.$passwordEL.render());
     this.$formRegister.appendChild(this.$confirmPasswordEl.render());
     this.$formRegister.appendChild(this.$submit);
-    this.$formRegister.appendChild(this.$switch);
 
-    // this.$containerRegister.appendChild(this.$header);
     this.$containerRegister.appendChild(this.$formRegister);
 
-    return container.appendChild(this.$containerRegister);
+    this.$switchBoxTextContainer.appendChild(this.$switchBoxText);
+    this.$switchBoxTextContainer.appendChild(this.$switch);
+    this.$switchBox.appendChild(this.$switchBoxTextContainer);
+    this.$containerRegister.appendChild(this.$switchBox);
+    this.$mainContainerRegister.appendChild(this.$containerRegister);
+    // this.$mainContainerRegister.appendChild(this.$header);
+
+    return container.appendChild(this.$mainContainerRegister);
   }
 }
 
