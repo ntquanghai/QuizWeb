@@ -109,7 +109,7 @@ export default class header {
                     document.getElementById("app").innerHTML = "";
                     addQuestion.render(document.getElementById("app"));
                 })
-                this.$headerUsername.textContent = auth.currentUser.displayName + "(Editor)";
+                this.$headerUsername.textContent = auth.currentUser.displayName + " (Editor)";
             }
             else {   
 
