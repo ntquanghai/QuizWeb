@@ -88,6 +88,7 @@ export default class header {
                     document.getElementById("app").innerHTML = "";
                     addQuestion.render(document.getElementById("app"));
                 })
+                this.$headerUsername.textContent = auth.currentUser.displayName + "(Editor)";
             }
             else {   
 
@@ -95,6 +96,7 @@ export default class header {
                     this.$headerEditCode.addEventListener("click", function() {
                     const addQuestion = new codeModal();
                     addQuestion.render(document.getElementById("app"));
+                    this.$headerUsername.textContent = auth.currentUser.displayName;
                 })
             }
 
@@ -108,7 +110,6 @@ export default class header {
         this.$headerUsername = document.createElement("div");
         this.$headerUsername.setAttribute("class","my-auto text-xl font-bold");
         this.$headerUsername.id = "header--username"
-        this.$headerUsername.textContent = auth.currentUser.displayName;
 
         this.$headerSeparation = document.createElement("div");
         this.$headerSeparation.textContent = "|";
