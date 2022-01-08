@@ -182,7 +182,6 @@ export default class Main {
           questNum: questNum,
           dateEnd: dateEnd,
         };
-        console.log("go", dataObj);
         addDoc(userData, dataObj);
         clearInterval(intervalVar);
         const goModal = new gameOverModal(points);
@@ -196,7 +195,6 @@ export default class Main {
   runGame = async () => {
     if(!timeInterval) {
         timeInterval = setInterval(function() {
-            console.log(timePlay);
             timePlay = timePlay + 1;
         },1000);
     }
@@ -229,7 +227,6 @@ export default class Main {
         timePlay: timePlay,
       };
       addDoc(userData, dataObj);
-      console.log(dataObj);
       const gb = new gameBeaten(questNum, points);
       clearInterval(intervalVar);
       gb.render(document.getElementById("app"));
@@ -272,7 +269,6 @@ export default class Main {
               dateEnd: dateEnd,
             };
             addDoc(userData, dataObj);
-            console.log("goWrong", dataObj);
             let newMain = new gameOverModal(points);
             newMain.render(document.getElementById("app"));
           }
