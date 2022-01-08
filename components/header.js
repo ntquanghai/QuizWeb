@@ -79,6 +79,27 @@ export default class header {
 
         this.$headerEditCode = document.createElement("div")
         this.$headerEditCode.setAttribute("class","text-xl cursor-pointer text-center my-auto px-4 hover:text-yellow-400")
+        this.$headerUsernameContainer = document.createElement("div");
+        this.$headerUsernameContainer.setAttribute("class","flex")
+
+        this.$headerUsername = document.createElement("div");
+        this.$headerUsername.setAttribute("class","my-auto text-xl font-bold");
+        this.$headerUsername.id = "header--username"
+
+        this.$headerSeparation = document.createElement("div");
+        this.$headerSeparation.textContent = "|";
+        this.$headerSeparation.setAttribute("class","text-xl mx-2 my-auto")
+
+        this.$headerUsernameLogOut = document.createElement("div")
+        this.$headerUsernameLogOut.id = "signOut";
+        this.$headerUsernameLogOut.textContent =  "Sign out";
+        this.$headerUsernameLogOut.setAttribute("class"," my-auto text-xl cursor-pointer hover:text-yellow-400")
+        this.$headerUsernameLogOut.addEventListener("click", function() {
+            signOut(auth).then(() => {
+              }).catch((error) => {
+                alert("Invalid")
+              });
+        })
 
         
             if(editorArr.includes(auth.currentUser.uid)) {
@@ -104,28 +125,7 @@ export default class header {
 
         this.$headerHighestScore = document.createElement("div");
 
-        this.$headerUsernameContainer = document.createElement("div");
-        this.$headerUsernameContainer.setAttribute("class","flex")
-
-        this.$headerUsername = document.createElement("div");
-        this.$headerUsername.setAttribute("class","my-auto text-xl font-bold");
-        this.$headerUsername.id = "header--username"
-
-        this.$headerSeparation = document.createElement("div");
-        this.$headerSeparation.textContent = "|";
-        this.$headerSeparation.setAttribute("class","text-xl mx-2 my-auto")
-
-        this.$headerUsernameLogOut = document.createElement("div")
-        this.$headerUsernameLogOut.id = "signOut";
-        this.$headerUsernameLogOut.textContent =  "Sign out";
-        this.$headerUsernameLogOut.setAttribute("class"," my-auto text-xl cursor-pointer hover:text-yellow-400")
-        this.$headerUsernameLogOut.addEventListener("click", function() {
-            signOut(auth).then(() => {
-              }).catch((error) => {
-                alert("Invalid")
-              });
-        })
-
+        
 
         this.$profileMenuContainer = document.createElement("ul");
         this.$profileMenuContainer.setAttribute("class","flex flex-col")
