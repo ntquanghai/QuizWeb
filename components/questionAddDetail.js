@@ -292,7 +292,6 @@ export default class questionAddDetail {
     if (flag === true) {
       return questionObj;
     } else {
-      console.log("failure");
       return null;
     }
   }
@@ -310,15 +309,12 @@ export default class questionAddDetail {
           const progress = Math.floor(
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           );
-          console.log("Upload is " + progress + "% done");
         },
         (error) => {
-          console.log("error upload", error);
           alert("Tai file le that bai");
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            console.log(url);
             fileUrl = url;
           });
         }
@@ -423,7 +419,6 @@ export default class questionAddDetail {
           reader = new FileReader();
 
           reader.onload = function (e) {
-            console.log("haha");
             document
               .getElementById("qadImg")
               .setAttribute("src", e.target.result);

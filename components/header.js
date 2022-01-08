@@ -90,7 +90,7 @@ export default class header {
                 })
             }
             else {   
-                    console.log("asdfasdf");
+
                     this.$headerEditCode.textContent = "EDITOR'S INVITATION";
                     this.$headerEditCode.addEventListener("click", function() {
                     const addQuestion = new codeModal();

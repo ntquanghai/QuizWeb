@@ -77,7 +77,6 @@ export default class answerBoxAdd {
 
         ans.push(ansObj1,ansObj2,ansObj3,ansObj4);
 
-        console.log(ans);
     }
 
     render(container) {

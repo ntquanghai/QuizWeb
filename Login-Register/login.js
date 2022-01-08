@@ -123,7 +123,6 @@ class Login {
             
           })
           .catch((error) => {
-            console.log("Failure to log in");
             alert(error.message);
           });
       };

@@ -108,7 +108,6 @@ export default class HomePage {
 
     imgRank.src = "./img/logoRanking.png";
     imgRank.addEventListener("click", function () {
-      console.log("asdfasdf");
       app.setActiveScreen(new leaderboard());
     });
 
@@ -265,10 +264,9 @@ export default class HomePage {
   signOut = () => {
     signOut(auth)
       .then(() => {
-        console.log("sign Out Succesful");
       })
       .catch((error) => {
-        console.log("bruh");
+
       });
   };
 

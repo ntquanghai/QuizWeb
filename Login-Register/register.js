@@ -132,22 +132,18 @@ class Register {
     const validated = this.validation();
 
     if (validated !== null) {
-        console.log("successful");
       createUserWithEmailAndPassword(auth, validated.email, validated.password)
         .then((user) => {
-          console.log(user.user);
           updateProfile(auth.currentUser, {
             displayName: validated.displayName,
           });
           sendEmailVerification(auth.currentUser);
         })
         .catch((error) => {
-          console.log(error);
           alert(error.message);
         });
     }
     else {
-        console.log("failure")
     }
   };
 

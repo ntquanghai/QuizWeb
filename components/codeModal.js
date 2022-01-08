@@ -88,6 +88,7 @@ export default class codeModal {
       await getDoc;
       if(dataArr.includes(document.getElementById("inputCode").value)) {
         alert("Welcome editor! (Reload page if the feature has not appeared)");
+
         const editorList = collection(db,"editorList");
         const infoObj = {
             userId: auth.currentUser.uid,
@@ -95,12 +96,9 @@ export default class codeModal {
             username: auth.currentUser.displayName,
             editor: true,
         }
-        addDoc(editorList,infoObj);
-        document.getElementById("codeModal").remove();
-        document.getElementById("app").innerHTML = "";
+        await addDoc(editorList,infoObj);
         location.reload();
-        const newPage = new HomePage();
-        newPage.render(document.getElementById("app"));
+        document.getElementById("codeModal").remove();
       }
       else {
         alert("Invalid code");
