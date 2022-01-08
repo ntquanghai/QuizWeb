@@ -4,29 +4,69 @@ import InputType from "./input.js";
 import Register from "./register.js";
 import app from "./app.js";
 
+
 class Login {
+
+    //containerLogin
+    $containerLogin;
+    //header
+    $header;
+    $logoEl;
+    $forgotPassword;
+  
     //formLogin
+    $containerLogin;
     $formLogin;
     $contentLoginEl;
     $email;
     $password;
+    //img
+    // $google;
     //btnSwitch
     $submit;
     $switch;
-    // btnConnect
-    $viaFb;
-    $viaGoogle;
-
     constructor() {
 
-        this.$contentLoginEl = document.createElement("div")
+        this.$containerLogin = document.createElement("div");
+        this.$containerLogin.setAttribute(
+        "class", 
+        "w-screen relative h-screen"
+        )
+
+        // header
+        // this.$header = document.createElement("div");
+        // this.$header.setAttribute(
+        // "class",
+        // "h-auto flex items-center relative"
+        // );
+
+        // this.$logoEl = document.createElement("div");
+        // this.$logoEl.textContent = "fly to the moon";
+        // this.$logoEl.setAttribute(
+        // "class",
+        // "w-auto h-auto ml-20 text-white mt-8 flex items-center text-6xl font-extrabold uppercase"
+        // );
+
+        // this.$google = document.createElement("img");
+        // this.$google.src ="google.png"
+
+
         this.$formLogin = document.createElement("form");
-        this.$formLogin.setAttribute("class"," relative absolute top-20 w-1/3 bg-gray-400 py-6 m-auto  px-12 rounded-lg border-solid border-4 border-gray-500")
+        this.$formLogin.setAttribute(
+        "class",
+        "absolute w-1/3 bg-yellow-100 py-6 px-12 -mt-2 rounded-lg border-2 border-black "
+        );
+        this.$formLogin.style.top = "50%";
+        this.$formLogin.style.left = "50%";
+        this.$formLogin.style.transform = "translate(-50%,-50%)";
 
         this.$contentLoginEl = document.createElement("p");
-        this.$contentLoginEl.textContent ="Hello wold";
-        this.$contentLoginEl.setAttribute("class"," animate-bounce sticky pb-5 text-4xl font-black text-yellow-300 uppercase text-center ")
-        
+        this.$contentLoginEl.textContent ="Sign in to Quizzy";
+        this.$contentLoginEl.setAttribute(
+        "class",
+        " sticky pb-5 text-5xl font-black text-yellow-300 text-center"
+        )
+
         this.$email = new InputType(
             "Email",
             "email",
@@ -38,31 +78,30 @@ class Login {
             "password",
             "Enter your password",
         );
-
-        this.$viaFb = document.createElement("button");
-        this.$viaFb.type = "button";
-        this.$viaFb.textContent = "via facebook";
-        this.$viaFb.setAttribute("class"," absolute -top-8 -right-16 px-4 py-2 bg-blue-400 font-bold text-white uppercase transform hover:scale-110 motion-reduce:transform-none rounded")
-
-        this.$viaGoogle = document.createElement("button");
-        this.$viaGoogle.type = "button";
-        this.$viaGoogle.textContent = "via google";
-        this.$viaGoogle.setAttribute("class","absolute top-6 -right-8 px-4 py-2 uppercase text-white bg-blue-400 font-bold transform hover:scale-110 motion-reduce:transform-none rounded")
-        
-
         
         this.$submit = document.createElement("button");
         this.$submit.type = "button";
         this.$submit.textContent = "login";
-        this.$submit.setAttribute("class"," py-2 px-20 bg-white m-auto mb-10 border-solid border-4 border-blue-500 hover:bg-blue-500 rounded-lg uppercase font-black")
+        this.$submit.setAttribute(
+        "class",
+        "py-2 px-20 mx-auto border-solid bg-yellow-300 text-white text-2xl")
         this.$submit.addEventListener("click",this.handleLogin);
 
         this.$switch = document.createElement("button");
         this.$switch.type = "button";
         this.$switch.textContent = "go register";
         this.$switch.addEventListener("click", this.switchRegister);
-        this.$switch.setAttribute("class"," flex absolute right-4 py-2 px-4 border-solid border-4 border-blue-400 rounded-lg uppercase bg-indigo-600 text-white transform hover:scale-110 motion-reduce:transform-none  font-black");
+        this.$switch.setAttribute(
+        "class",
+        "px-4 py-2 ml-72 -mt-16 rounded-lg bg-blue-600 text-white ring ring-blue-400 ring-offset-4 ring-offset-blue-300 ring-offset-blue-30 transform hover:scale-110 motion-reduce:transform-none font-black uppercase"
+        );
         
+        this.$forgotPassword = document.createElement("div");
+        this.$forgotPassword.textContent = "forgot password ?";
+        this.$forgotPassword.setAttribute(
+            "class",
+            "relative absolution top-8 text-black font-black text-sm italic underline uppercase")
+
     }
 
     handleLogin = (e) => {
@@ -89,15 +128,20 @@ class Login {
 
 
     render(container){
+        // this.$header.appendChild(this.$logoEl);
+    
         this.$formLogin.appendChild(this.$contentLoginEl);
         this.$formLogin.appendChild(this.$email.render());
         this.$formLogin.appendChild(this.$password.render());
         this.$formLogin.appendChild(this.$submit);
+        this.$formLogin.appendChild(this.$forgotPassword);
         this.$formLogin.appendChild(this.$switch);
-        this.$formLogin.appendChild(this.$viaFb);
-        this.$formLogin.appendChild(this.$viaGoogle);
 
-        return container.appendChild(this.$formLogin);
+
+        // this.$containerLogin.appendChild(this.$header);
+        this.$containerLogin.appendChild(this.$formLogin);
+
+        return container.appendChild(this.$containerLogin);
     }
 }
 

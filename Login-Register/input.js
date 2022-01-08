@@ -10,7 +10,7 @@ class InputType {
 
         this.$labelEl = document.createElement("label");
         this.$labelEl.textContent = name;
-        this.$labelEl.setAttribute("class","text-purple-600 text-xl font-bold mb-2 ")
+        this.$labelEl.setAttribute("class","text-black text-xl font-bold mb-2 ")
         
         
         this.$inputEl = document.createElement("input");

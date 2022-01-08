@@ -19,11 +19,8 @@ class App {
     setupAuthenticationListener() {
         onAuthStateChanged(auth, (user) => {
           if (user) {
-            document.getElementById("app").setAttribute("class","");
-            document.getElementById("app").innerHTML = "";
             const mainScreen = new HomePage();
-            // this.setActiveScreen(mainScreen);
-            mainScreen.render(document.getElementById("app"));
+            this.setActiveScreen(mainScreen);
           } else {
             const loginScreen = new Login();
             this.setActiveScreen(loginScreen);
@@ -31,9 +28,10 @@ class App {
         });
       }
 
-    setActiveScreen(component) {
+    setActiveScreen = (component) => {
         if(this.screen !== undefined){
-            this.screen.innerHTML = "";
+          document.getElementById("app").setAttribute("class","");
+          this.screen.innerHTML = "";
         }
         component.render(this.screen);
     }

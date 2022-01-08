@@ -308,5 +308,3 @@ export default class Main {
   }
 }
 
-const newMain = new Main();
-newMain.render(document.getElementById("app"));

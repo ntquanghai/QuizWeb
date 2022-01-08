@@ -145,7 +145,7 @@ header .navbar ul li a:hover {
 }
 
 .center {
-  top: 80%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 /* .center button {

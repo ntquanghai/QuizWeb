@@ -9,7 +9,7 @@ export default class answerBoxAdd {
     
     constructor(ans,id) {
         this.$boxContainer = document.createElement("div");
-        this.$boxContainer.setAttribute("class","flex w-1/4 mx-2 mt-4 bg-green-200 cursor-pointer h-16 p-2 border border-black");
+        this.$boxContainer.setAttribute("class","flex w-1/4 mx-2 mt-4 bg-yellow-200 cursor-pointer h-16 p-2 border border-black");
         this.$boxContainer.id = id;
 
         this.$boxAnsBox = document.createElement("div");
@@ -19,7 +19,7 @@ export default class answerBoxAdd {
         this.$boxAnsChoice.textContent = ans +".";
 
         this.$boxAnsText = document.createElement("input");
-        this.$boxAnsText.setAttribute("class","mx-1 bg-transparent outline-none my-auto flex-grow bg-green-100 px-2");
+        this.$boxAnsText.setAttribute("class","mx-1 bg-transparent outline-none my-auto flex-grow bg-yellow-100 px-2");
         this.$boxAnsText.maxLength = "20";
 
         this.$boxAnsCheckboxContainer = document.createElement("div");

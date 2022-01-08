@@ -6,36 +6,23 @@ import {
   getDocs,
   addDoc,
 } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
+import { auth } from "./outerImports.js";
+import header from "./header.js"
 
 let dataUser = [];
-
 const db = getFirestore();
-const questionData = collection(db, "questionData");
-const userData = collection(db, "userData");
-const getUserData = getDocs(userData);
-getUserData.then((data) => {
-  data.docs.forEach((doc) => {
-    dataUser.push({ ...doc.data(), id: doc.id });
-  });
-});
-await getUserData;
-
-const fieldSorter = (fields) => (a, b) =>
-  fields
-    .map((o) => {
-      let dir = 1;
-      if (o[0] === "-") {
-        dir = -1;
-        o = o.substring(1);
-      }
-      return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
-    })
-    .reduce((p, n) => (p ? p : n), 0);
-
-let haha = dataUser.sort(fieldSorter(["points", "-timePlay"])).reverse();
-console.log(haha);
+    const questionData = collection(db, "questionData");
+    const userData = collection(db, "userData");
+    const getUserData = getDocs(userData);
+    getUserData.then((data) => {
+      data.docs.forEach((doc) => {
+        dataUser.push({ ...doc.data(), id: doc.id });
+      });
+    });
+    await getUserData;
 
 export default class leaderboard {
+  $lbMainContainer;
   $lbContainer;
   $lbHeader;
 
@@ -55,11 +42,16 @@ export default class leaderboard {
   $lbBoardContent;
 
   constructor() {
+    this.$lbMainContainer = document.createElement("div");
+    this.$lbMainContainer.setAttribute("class","flex flex-col w-screen h-screen")
+
     this.$lbContainer = document.createElement("div");
     this.$lbContainer.setAttribute(
       "class",
       "flex flex-col h-5/6 w-2/3 p-8 bg-white border-2 border-black m-auto"
     );
+
+    this.$lbHeader = new header();
 
     this.$lbContentContainer = document.createElement("div");
 
@@ -125,12 +117,21 @@ export default class leaderboard {
   }
 
   runTable(container) {
+    const fieldSorter = (fields) => (a, b) => fields.map(o => 
+      {
+        let dir = 1;
+        if (o[0] === '-') { dir = -1; o=o.substring(1); }
+        return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
+      }).reduce((p, n) => p ? p : n, 0);
+  
+    let dataUserArr = dataUser
+      .sort(fieldSorter(["points", "-timePlay"]))
+      .reverse();
     const infoContainer = document.createElement("tbody");
     for (let i = 0; i < 10; i++) {
-    
       let tableRow = document.createElement("tr");
-      if(i%2==0) {
-          tableRow.setAttribute("class","bg-gray-200");
+      if (i % 2 == 0) {
+        tableRow.setAttribute("class", "bg-gray-200");
       }
 
       let rowRank = document.createElement("td");
@@ -145,21 +146,27 @@ export default class leaderboard {
         "class",
         "text-center flex-grow py-2 px-2 border-l-2 border-t-2 border-b-2 border-black"
       );
-      rowName.textContent = haha[i].username;
+      if(dataUserArr[i].username === auth.currentUser.displayName) {
+        rowName.textContent = dataUserArr[i].username + " (You)";
+      } 
+      else {
+        rowName.textContent = dataUserArr[i].username;
+      }
+
 
       let rowPoints = document.createElement("td");
       rowPoints.setAttribute(
         "class",
         "text-center py-2 px-4 border-l-2 border-t-2 border-b-2 border-black"
       );
-      rowPoints.textContent = haha[i].points;
+      rowPoints.textContent = dataUserArr[i].points;
 
       let rowDate = document.createElement("td");
       rowDate.setAttribute(
         "class",
         "text-center py-2 px-4 border-2 border-black whitespace-nowrap"
       );
-      rowDate.textContent = this.convertHMS(haha[i].timePlay);
+      rowDate.textContent = this.convertHMS(dataUserArr[i].timePlay);
 
       tableRow.appendChild(rowRank);
       tableRow.appendChild(rowName);
@@ -190,6 +197,8 @@ export default class leaderboard {
     this.$lbContentContainer.appendChild(this.$lbBoardContainer);
     this.$lbContainer.appendChild(this.$lbContentContainer);
 
-    container.appendChild(this.$lbContainer);
+    this.$lbHeader.render(this.$lbMainContainer);
+    this.$lbMainContainer.appendChild(this.$lbContainer);
+    container.appendChild(this.$lbMainContainer);
   }
 }

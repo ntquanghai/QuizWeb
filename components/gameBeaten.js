@@ -23,7 +23,7 @@ export default class gameBeaten {
 
         this.$gbTextCongrats = document.createElement("div");
         this.$gbTextCongrats.textContent = "CONGRATULATIONS!";
-        this.$gbTextCongrats.setAttribute("class","font-bold text-6xl text-green-400")
+        this.$gbTextCongrats.setAttribute("class","font-bold text-6xl text-yellow-400")
 
         this.$gbTextRecord = document.createElement("div");
         this.$gbTextRecord.textContent = "You have reached our current record!";
@@ -42,7 +42,7 @@ export default class gameBeaten {
 
         this.$gbReplay = document.createElement("button");
         this.$gbReplay.textContent = "REPLAY";
-        this.$gbReplay.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
+        this.$gbReplay.setAttribute("class","p-2 bg-yellow-200 inline-block m-2 border-black border-2 hover:bg-yellow-300")
         this.$gbReplay.addEventListener("click", async () => {
             sessionStorage.setItem("Replay", "true");
             location.reload();
@@ -50,7 +50,7 @@ export default class gameBeaten {
 
         this.$gbMainButton = document.createElement("button");
         this.$gbMainButton.textContent = "MAIN PAGE";
-        this.$gbMainButton.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
+        this.$gbMainButton.setAttribute("class","p-2 bg-yellow-200 inline-block m-2 border-black border-2 hover:bg-yellow-300")
         this.$gbMainButton.addEventListener("click", function() {
             sessionStorage.removeItem("Replay");
             location.reload();
@@ -58,7 +58,7 @@ export default class gameBeaten {
         
         this.$gbLeaderboardButton = document.createElement("button");
         this.$gbLeaderboardButton.textContent = "LEADERBOARD"
-        this.$gbLeaderboardButton.setAttribute("class","p-2 bg-green-200 inline-block m-2 border-black border-2 hover:bg-green-300")
+        this.$gbLeaderboardButton.setAttribute("class","p-2 bg-yellow-200 inline-block m-2 border-black border-2 hover:bg-yellow-300")
     }
     render(container) {
         this.$gBBackground.appendChild(this.$gbContainer);
