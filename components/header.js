@@ -79,12 +79,35 @@ export default class header {
 
         this.$headerEditCode = document.createElement("div")
         this.$headerEditCode.setAttribute("class","text-xl cursor-pointer text-center my-auto px-4 hover:text-yellow-400")
+
+        
+            if(editorArr.includes(auth.currentUser.uid)) {
+                this.$headerEditCode.textContent = "ADD QUESTIONS";
+                this.$headerEditCode.addEventListener("click", function() {
+                    const addQuestion = new questionAdd();
+                    document.getElementById("app").innerHTML = "";
+                    addQuestion.render(document.getElementById("app"));
+                })
+            }
+            else {   
+                    this.$headerEditCode.textContent = "EDITOR'S INVITATION";
+                    this.$headerEditCode.addEventListener("click", function() {
+                    const addQuestion = new codeModal();
+                    addQuestion.render(document.getElementById("app"));
+                })
+            }
+
+
+
+        this.$headerHighestScore = document.createElement("div");
+
         this.$headerUsernameContainer = document.createElement("div");
         this.$headerUsernameContainer.setAttribute("class","flex")
 
         this.$headerUsername = document.createElement("div");
         this.$headerUsername.setAttribute("class","my-auto text-xl font-bold");
         this.$headerUsername.id = "header--username"
+        this.$headerUsername.textContent = auth.currentUser.displayName;
 
         this.$headerSeparation = document.createElement("div");
         this.$headerSeparation.textContent = "|";
@@ -101,31 +124,6 @@ export default class header {
               });
         })
 
-        
-            if(editorArr.includes(auth.currentUser.uid)) {
-                this.$headerEditCode.textContent = "ADD QUESTIONS";
-                this.$headerEditCode.addEventListener("click", function() {
-                    const addQuestion = new questionAdd();
-                    document.getElementById("app").innerHTML = "";
-                    addQuestion.render(document.getElementById("app"));
-                })
-                this.$headerUsername.textContent = auth.currentUser.displayName + " (Editor)";
-            }
-            else {   
-
-                    this.$headerEditCode.textContent = "EDITOR'S INVITATION";
-                    this.$headerEditCode.addEventListener("click", function() {
-                    const addQuestion = new codeModal();
-                    addQuestion.render(document.getElementById("app"));
-                    this.$headerUsername.textContent = auth.currentUser.displayName;
-                })
-            }
-
-
-
-        this.$headerHighestScore = document.createElement("div");
-
-        
 
         this.$profileMenuContainer = document.createElement("ul");
         this.$profileMenuContainer.setAttribute("class","flex flex-col")
