@@ -70,7 +70,7 @@ export default class gameOverModal {
         })
 
         this.$GOModalToLeaderboard.addEventListener("click", function() {
-            sessionStorage.setItem("Replay", "true");
+            sessionStorage.removeItem("Replay");
             document.getElementById("app").innerHTML = "";
             const newlb = new leaderboard();
             newlb.render(document.getElementById("app"));
