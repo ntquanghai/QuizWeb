@@ -87,7 +87,7 @@ export default class codeModal {
       });
       await getDoc;
       if(dataArr.includes(document.getElementById("inputCode").value)) {
-        alert("Welcome editor!");
+        alert("Welcome editor! (Reload page if the feature has not appeared)");
         const editorList = collection(db,"editorList");
         const infoObj = {
             userId: auth.currentUser.uid,
@@ -98,6 +98,7 @@ export default class codeModal {
         addDoc(editorList,infoObj);
         document.getElementById("codeModal").remove();
         document.getElementById("app").innerHTML = "";
+        location.reload();
         const newPage = new HomePage();
         newPage.render(document.getElementById("app"));
       }
