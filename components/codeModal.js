@@ -4,6 +4,7 @@ import {
   getDocs,
   addDoc,
 } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
+import HomePage from "./homePage.js";
 import { auth } from "./outerImports.js";
 
 export default class codeModal {
@@ -96,6 +97,9 @@ export default class codeModal {
         }
         addDoc(editorList,infoObj);
         document.getElementById("codeModal").remove();
+        document.getElementById("app").innerHTML = "";
+        const newPage = new HomePage();
+        newPage.render(document.getElementById("app"));
       }
       else {
         alert("Invalid code");

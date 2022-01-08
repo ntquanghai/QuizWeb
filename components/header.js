@@ -17,9 +17,18 @@ const db = getFirestore();
 const editorList = collection(db,"editorList");
 const getEditorList = await getDocs(editorList);
 
+
 getEditorList.forEach((doc) => {
   editorListArr.push(doc.data());
 })
+console.log(editorListArr);
+
+let editorArr = [];
+
+for(let i = 0; i < editorListArr.length; i++) {
+    editorArr.push(editorListArr[i].userId);
+}
+console.log(editorArr);
 
 export default class header {
     $headerContainer
@@ -73,8 +82,8 @@ export default class header {
         this.$headerEditCode = document.createElement("div")
         this.$headerEditCode.setAttribute("class","text-xl cursor-pointer text-center my-auto px-4 hover:text-yellow-400")
 
-        for(let i = 0; i < editorListArr.length; i++) {
-            if(editorListArr[i].userId === auth.currentUser.uid) {
+        
+            if(editorArr.includes(auth.currentUser.uid)) {
                 this.$headerEditCode.textContent = "ADD QUESTIONS";
                 this.$headerEditCode.addEventListener("click", function() {
                     const addQuestion = new questionAdd();
@@ -83,13 +92,13 @@ export default class header {
                 })
             }
             else {   
-            this.$headerEditCode.textContent = "EDITOR'S INVITATION";
-            this.$headerEditCode.addEventListener("click", function() {
+                    console.log("asdfasdf");
+                    this.$headerEditCode.textContent = "EDITOR'S INVITATION";
+                    this.$headerEditCode.addEventListener("click", function() {
                     const addQuestion = new codeModal();
                     addQuestion.render(document.getElementById("app"));
                 })
             }
-        }
 
 
 
