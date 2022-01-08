@@ -21,14 +21,12 @@ const getEditorList = await getDocs(editorList);
 getEditorList.forEach((doc) => {
   editorListArr.push(doc.data());
 })
-console.log(editorListArr);
 
 let editorArr = [];
 
 for(let i = 0; i < editorListArr.length; i++) {
     editorArr.push(editorListArr[i].userId);
 }
-console.log(editorArr);
 
 export default class header {
     $headerContainer
